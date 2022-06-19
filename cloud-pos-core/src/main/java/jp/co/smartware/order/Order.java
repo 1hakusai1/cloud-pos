@@ -36,6 +36,31 @@ public class Order {
         this.status = status;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((orderID == null) ? 0 : orderID.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Order other = (Order) obj;
+        if (orderID == null) {
+            if (other.orderID != null)
+                return false;
+        } else if (!orderID.equals(other.orderID))
+            return false;
+        return true;
+    }
+
     public void complete() {
         if (status.equals(OrderStatus.SHIPPED)) {
             throw new IllegalStateException("Already shipped");
