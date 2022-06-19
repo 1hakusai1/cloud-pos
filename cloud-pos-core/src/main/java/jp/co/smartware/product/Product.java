@@ -37,6 +37,18 @@ public class Product {
         return janCode;
     }
 
+    public JapaneseProductName getJapaneseProductName() {
+        return japaneseProductName;
+    }
+
+    public ChineseProductName getChineseProductName() {
+        return chineseProductName;
+    }
+
+    public URL getImageURL() {
+        return imageURL;
+    }
+
     public void ship(int shipmentNum) throws InventoryNotEnoughException {
         if (shipmentNum < 0) {
             throw new IllegalArgumentException("ShipmentNum is less than 0");

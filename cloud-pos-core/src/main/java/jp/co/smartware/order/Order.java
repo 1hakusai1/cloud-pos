@@ -1,6 +1,7 @@
 package jp.co.smartware.order;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import jp.co.smartware.product.JANCode;
@@ -74,6 +75,18 @@ public class Order {
 
     public Map<JANCode, Integer> getOrderdProducts() {
         return orderedProducts;
+    }
+
+    public OrderID getOrderID() {
+        return orderID;
+    }
+
+    public LPNumber getLpNumber() {
+        return lpNumber;
+    }
+
+    public Map<JANCode, Integer> getOrderedProducts() {
+        return new HashMap<>(orderedProducts);
     }
 
 }
