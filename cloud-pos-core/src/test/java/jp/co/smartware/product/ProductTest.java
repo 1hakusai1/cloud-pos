@@ -10,9 +10,6 @@ import java.net.URL;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import io.quarkus.test.junit.QuarkusTest;
-
-@QuarkusTest
 public class ProductTest {
 
     JANCode janCode;
