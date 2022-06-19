@@ -1,4 +1,4 @@
-package jp.co.smartware.usecase;
+package jp.co.smartware.usecase.outofstock;
 
 import jp.co.smartware.order.OrderRepository;
 import jp.co.smartware.product.ProductRepository;
