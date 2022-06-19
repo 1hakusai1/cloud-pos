@@ -19,14 +19,14 @@ public abstract class OrderRepository {
 
     public abstract void update(Order order);
 
-    protected static Order createInstance(
+    protected static Order createOrderInstance(
             final OrderID orderID,
             final LPNumber lpNumber,
             final Map<JANCode, Integer> orderedProducts) {
         return new Order(orderID, lpNumber, orderedProducts);
     }
 
-    protected static Order createInstance(
+    protected static Order createOrderInstance(
             final OrderID orderID,
             final LPNumber lpNumber,
             final Map<JANCode, Integer> orderedProducts,

@@ -16,7 +16,7 @@ public abstract class ProductRepository {
 
     abstract public void update(final Product product) throws ProductRepositoryException;
 
-    protected static Product createInstance(
+    protected static Product createProductInstance(
             final JANCode janCode,
             final JapaneseProductName japaneseProductName,
             final ChineseProductName chineseProductName,
