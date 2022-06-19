@@ -2,9 +2,9 @@ package jp.co.smartware.product;
 
 public class JapaneseProductName {
 
-    private String value;
+    private final String value;
 
-    public JapaneseProductName(String value) {
+    public JapaneseProductName(final String value) {
         if (value == null) {
             throw new NullPointerException("JapaneseProductName value is null.");
         }
@@ -14,5 +14,5 @@ public class JapaneseProductName {
     public String getValue() {
         return value;
     }
-    
+
 }

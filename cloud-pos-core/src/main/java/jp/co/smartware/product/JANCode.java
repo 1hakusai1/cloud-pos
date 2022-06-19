@@ -2,9 +2,9 @@ package jp.co.smartware.product;
 
 public class JANCode {
 
-    private String value;
+    private final String value;
 
-    public JANCode(String value) {
+    public JANCode(final String value) {
         if (value == null) {
             throw new NullPointerException("JANCode value is null.");
         }

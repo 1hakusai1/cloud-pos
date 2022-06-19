@@ -4,18 +4,18 @@ import java.net.URL;
 
 public class Product {
 
-    private JANCode janCode;
+    private final JANCode janCode;
     private JapaneseProductName japaneseProductName;
     private ChineseProductName chineseProductName;
     private URL imageURL;
     private int inventoryQuantity;
 
     Product(
-            JANCode janCode,
-            JapaneseProductName japaneseProductName,
-            ChineseProductName chineseProductName,
-            URL imageURL,
-            int inventoryQuantity) {
+            final JANCode janCode,
+            final JapaneseProductName japaneseProductName,
+            final ChineseProductName chineseProductName,
+            final URL imageURL,
+            final int inventoryQuantity) {
         if (janCode == null || japaneseProductName == null || chineseProductName == null) {
             throw new NullPointerException("Some required parameter is null.");
         }
