@@ -71,6 +71,16 @@ public class OrderTest {
     }
 
     @Test
+    public void 注文番号で同一性を判定する() {
+        OrderStatus differentStatus = OrderStatus.SHIPPED;
+        Map<JANCode, Integer> differentorederedProducts = new HashMap<>();
+        differentorederedProducts.put(new JANCode("22222222"), 10);
+        Order order1 = new Order(orderID, lpNumber, orderedProducts, status);
+        Order order2 = new Order(orderID, lpNumber, differentorederedProducts, differentStatus);
+        assertEquals(order1, order2);
+    }
+
+    @Test
     public void 出荷するとステータスが出荷済みに変わる() {
         Order order = new Order(orderID, lpNumber, orderedProducts);
         order.complete();
