@@ -12,14 +12,14 @@ public abstract class OrderRepository {
 
     public abstract List<Order> listAllWaitingOrder();
 
-    protected Order createInstance(
+    protected static Order createInstance(
             final OrderID orderID,
             final LPNumber lpNumber,
             final Map<JANCode, Integer> orderedProducts) {
         return new Order(orderID, lpNumber, orderedProducts);
     }
 
-    protected Order createInstance(
+    protected static Order createInstance(
             final OrderID orderID,
             final LPNumber lpNumber,
             final Map<JANCode, Integer> orderedProducts,
