@@ -12,6 +12,13 @@ public abstract class OrderRepository {
 
     public abstract List<Order> listAllWaitingOrder();
 
+    public abstract void create(
+            final OrderID orderID,
+            final LPNumber lpNumber,
+            final Map<JANCode, Integer> orderedProducts);
+
+    public abstract void update(Order order);
+
     protected static Order createInstance(
             final OrderID orderID,
             final LPNumber lpNumber,
