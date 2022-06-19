@@ -5,9 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import io.quarkus.runtime.annotations.QuarkusMain;
-
-@QuarkusMain
 public class OrderIDTest {
 
     @Test
