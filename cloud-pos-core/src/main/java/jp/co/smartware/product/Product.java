@@ -33,6 +33,10 @@ public class Product {
         return inventoryQuantity;
     }
 
+    public JANCode getJanCode() {
+        return janCode;
+    }
+
     public void ship(int shipmentNum) throws InventoryNotEnoughException {
         if (shipmentNum < 0) {
             throw new IllegalArgumentException("ShipmentNum is less than 0");
