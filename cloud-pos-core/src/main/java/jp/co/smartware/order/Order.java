@@ -73,10 +73,6 @@ public class Order {
         return status;
     }
 
-    public Map<JANCode, Integer> getOrderdProducts() {
-        return orderedProducts;
-    }
-
     public OrderID getOrderID() {
         return orderID;
     }
