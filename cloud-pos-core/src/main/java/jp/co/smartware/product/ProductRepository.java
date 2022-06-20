@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public abstract class ProductRepository {
 
-    abstract public Optional<Product> findByJANCode(final JANCode jancode);
+    abstract public Optional<Product> findByJANCode(final JANCode jancode) throws ProductRepositoryException;
 
     abstract public void create(
             final JANCode janCode,

@@ -40,7 +40,7 @@ public class InMemoryProductRepositoryTest {
     }
 
     @Test
-    public void 登録した商品のデータが参照できる() {
+    public void 登録した商品のデータが参照できる() throws Exception {
         Optional<Product> found = repository.findByJANCode(janCode);
         assertTrue(found.isPresent());
         assertEquals(janCode, found.get().getJanCode());
@@ -55,7 +55,7 @@ public class InMemoryProductRepositoryTest {
     }
 
     @Test
-    public void 登録されていないJANコードで検索するとnullを返す() {
+    public void 登録されていないJANコードで検索するとnullを返す() throws Exception {
         Optional<Product> found = repository.findByJANCode(new JANCode("987654321"));
         assertTrue(found.isEmpty());
     }

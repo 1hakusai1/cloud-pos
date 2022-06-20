@@ -8,9 +8,9 @@ import jp.co.smartware.product.JANCode;
 
 public abstract class OrderRepository {
 
-    public abstract Optional<Order> findByID(OrderID orderID);
+    public abstract Optional<Order> findByID(OrderID orderID) throws OrderRepositoryException;
 
-    public abstract List<Order> listAllWaitingOrder();
+    public abstract List<Order> listAllWaitingOrder() throws OrderRepositoryException;
 
     public abstract void create(
             final OrderID orderID,

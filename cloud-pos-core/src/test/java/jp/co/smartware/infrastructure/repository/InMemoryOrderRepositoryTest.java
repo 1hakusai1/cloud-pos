@@ -44,7 +44,7 @@ public class InMemoryOrderRepositoryTest {
     }
 
     @Test
-    public void 登録済みの注文を参照できる() {
+    public void 登録済みの注文を参照できる() throws OrderRepositoryException {
         Optional<Order> found = repository.findByID(orderID);
         assertTrue(found.isPresent());
         assertTrue(found.get().getLpNumber().equals(lpNumber));
