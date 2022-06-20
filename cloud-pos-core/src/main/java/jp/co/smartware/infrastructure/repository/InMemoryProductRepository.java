@@ -22,7 +22,10 @@ public class InMemoryProductRepository extends ProductRepository {
 
     @Override
     public void create(JANCode janCode, JapaneseProductName japaneseProductName, ChineseProductName chineseProductName,
-            URL imageURL, int inventoryQuantity) {
+            URL imageURL, int inventoryQuantity) throws ProductRepositoryException {
+        if (exists(janCode)) {
+            throw new ProductRepositoryException("JANCode: " + janCode.getValue() + " alreadyExists");
+        }
         Product product = createProductInstance(janCode, japaneseProductName, chineseProductName, imageURL,
                 inventoryQuantity);
         repository.put(janCode, product);
@@ -41,11 +44,14 @@ public class InMemoryProductRepository extends ProductRepository {
     @Override
     public void update(Product product) throws ProductRepositoryException {
         JANCode janCode = product.getJanCode();
-        Optional<Product> current = findByJANCode(janCode);
-        if (current.isEmpty()) {
+        if (!exists(janCode)) {
             throw new ProductRepositoryException("No product is found for jancode: " + janCode.getValue());
         }
         repository.put(janCode, product);
+    }
+
+    private boolean exists(JANCode janCode) {
+        return findByJANCode(janCode).isPresent();
     }
 
 }

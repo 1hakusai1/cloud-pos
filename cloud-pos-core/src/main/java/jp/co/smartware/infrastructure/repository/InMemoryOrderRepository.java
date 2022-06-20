@@ -23,7 +23,11 @@ public class InMemoryOrderRepository extends OrderRepository {
     }
 
     @Override
-    public void create(OrderID orderID, LPNumber lpNumber, Map<JANCode, Integer> orderedProducts) {
+    public void create(OrderID orderID, LPNumber lpNumber, Map<JANCode, Integer> orderedProducts)
+            throws OrderRepositoryException {
+        if (exists(orderID)) {
+            throw new OrderRepositoryException("OrderID: " + orderID.getValue() + " already exists.");
+        }
         Order order = createOrderInstance(orderID, lpNumber, orderedProducts);
         repository.put(orderID, order);
     }
@@ -48,11 +52,14 @@ public class InMemoryOrderRepository extends OrderRepository {
     @Override
     public void update(Order order) throws OrderRepositoryException {
         OrderID orderID = order.getOrderID();
-        Optional<Order> current = findByID(orderID);
-        if (current.isEmpty()) {
+        if (!exists(orderID)) {
             throw new OrderRepositoryException("Order is not found for orderID: " + orderID.getValue());
         }
         repository.put(orderID, order);
+    }
+
+    private boolean exists(OrderID orderID) {
+        return findByID(orderID).isPresent();
     }
 
 }

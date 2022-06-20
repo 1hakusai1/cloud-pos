@@ -48,6 +48,13 @@ public class InMemoryProductRepositoryTest {
     }
 
     @Test
+    public void 同一JANCodeの商品は登録できない() {
+        assertThrows(ProductRepositoryException.class, () -> {
+            repository.create(janCode, japaneseProductName, chineseProductName, imageURL, 5);
+        });
+    }
+
+    @Test
     public void 登録されていないJANコードで検索するとnullを返す() {
         Optional<Product> found = repository.findByJANCode(new JANCode("987654321"));
         assertTrue(found.isEmpty());

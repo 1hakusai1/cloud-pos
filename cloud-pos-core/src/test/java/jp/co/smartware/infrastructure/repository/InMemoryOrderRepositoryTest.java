@@ -31,7 +31,7 @@ public class InMemoryOrderRepositoryTest {
     private Map<JANCode, Integer> orderedProducts;
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws Exception {
         repository = new InMemoryOrderRepository();
 
         orderID = new OrderID("1111");
@@ -48,6 +48,13 @@ public class InMemoryOrderRepositoryTest {
         Optional<Order> found = repository.findByID(orderID);
         assertTrue(found.isPresent());
         assertTrue(found.get().getLpNumber().equals(lpNumber));
+    }
+
+    @Test
+    public void 同一注文番号の注文は登録できない() {
+        assertThrows(OrderRepositoryException.class, () -> {
+            repository.create(orderID, lpNumber, orderedProducts);
+        });
     }
 
     @Test

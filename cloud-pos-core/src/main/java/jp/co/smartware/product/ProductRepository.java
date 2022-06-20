@@ -12,7 +12,7 @@ public abstract class ProductRepository {
             final JapaneseProductName japaneseProductName,
             final ChineseProductName chineseProductName,
             final URL imageURL,
-            final int inventoryQuantity);
+            final int inventoryQuantity) throws ProductRepositoryException;
 
     abstract public void update(final Product product) throws ProductRepositoryException;
 
