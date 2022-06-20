@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import jp.co.smartware.order.Order;
 import jp.co.smartware.order.OrderRepository;
@@ -43,7 +44,11 @@ public class OutOfStockDetector {
         }
         for (JANCode janCode : totalOrderedAmounts.keySet()) {
             int totalOrderedAmount = totalOrderedAmounts.get(janCode);
-            Product product = productRepository.findByJANCode(janCode).get();
+            Optional<Product> optProduct = productRepository.findByJANCode(janCode);
+            if (optProduct.isEmpty()) {
+                continue;
+            }
+            Product product = optProduct.get();
             int currentInventoryQuantity = product.getInventoryQuantity();
             if (currentInventoryQuantity < totalOrderedAmount) {
                 int lackedAmount = totalOrderedAmount - currentInventoryQuantity;
