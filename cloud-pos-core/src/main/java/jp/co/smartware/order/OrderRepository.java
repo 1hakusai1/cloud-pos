@@ -17,7 +17,7 @@ public abstract class OrderRepository {
             final LPNumber lpNumber,
             final Map<JANCode, Integer> orderedProducts);
 
-    public abstract void update(Order order);
+    public abstract void update(Order order) throws OrderRepositoryException;
 
     protected static Order createOrderInstance(
             final OrderID orderID,
