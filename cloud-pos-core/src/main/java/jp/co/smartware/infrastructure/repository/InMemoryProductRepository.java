@@ -50,6 +50,10 @@ public class InMemoryProductRepository extends ProductRepository {
         repository.put(janCode, product);
     }
 
+    public void deleteAll() {
+        repository = new ConcurrentHashMap<>();
+    }
+
     private boolean exists(JANCode janCode) {
         return findByJANCode(janCode).isPresent();
     }

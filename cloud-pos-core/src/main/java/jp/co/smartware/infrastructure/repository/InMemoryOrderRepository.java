@@ -58,6 +58,10 @@ public class InMemoryOrderRepository extends OrderRepository {
         repository.put(orderID, order);
     }
 
+    public void delteAll() {
+        repository = new ConcurrentHashMap<>();
+    }
+
     private boolean exists(OrderID orderID) {
         return findByID(orderID).isPresent();
     }
