@@ -43,7 +43,7 @@ public class InMemoryProductRepository extends ProductRepository {
         JANCode janCode = product.getJanCode();
         Optional<Product> current = findByJANCode(janCode);
         if (current.isEmpty()) {
-            throw new ProductRepositoryException("No product is found for jancode: " + janCode.toString());
+            throw new ProductRepositoryException("No product is found for jancode: " + janCode.getValue());
         }
         repository.put(janCode, product);
     }

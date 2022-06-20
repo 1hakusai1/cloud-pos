@@ -34,8 +34,7 @@ public class JANCode {
         return true;
     }
 
-    @Override
-    public String toString() {
+    public String getValue() {
         return value;
     }
 
