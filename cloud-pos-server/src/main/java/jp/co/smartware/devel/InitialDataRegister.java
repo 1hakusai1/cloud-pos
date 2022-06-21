@@ -50,7 +50,7 @@ public class InitialDataRegister {
                     new JANCode(String.valueOf(i)),
                     new JapaneseProductName(genRandomString()),
                     new ChineseProductName(genRandomString()),
-                    new URL("https://www.pinterest.jp/pin/608760074625600159/"),
+                    new URL("https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg"),
                     i);
         }
         logger.info("...Complete");

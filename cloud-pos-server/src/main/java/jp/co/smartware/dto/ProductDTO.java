@@ -6,7 +6,7 @@ public class ProductDTO {
     public String jancode;
     public String japaneseProductName;
     public String chineseProductName;
-    public String url;
+    public String imageURL;
     public int inventoryQuantity;
 
     public static ProductDTO fromProduct(Product product) {
@@ -14,7 +14,7 @@ public class ProductDTO {
         dto.jancode = product.getJanCode().getValue();
         dto.japaneseProductName = product.getJapaneseProductName().getValue();
         dto.chineseProductName = product.getChineseProductName().getValue();
-        dto.url = product.getImageURL().toString();
+        dto.imageURL = product.getImageURL().toString();
         dto.inventoryQuantity = product.getInventoryQuantity();
         return dto;
     }
