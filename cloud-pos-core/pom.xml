@@ -7,7 +7,6 @@
     <artifactId>cloud-pos</artifactId>
     <version>1.0.0</version>
   </parent>
-  <groupId>jp.co.smartware</groupId>
   <artifactId>cloud-pos-core</artifactId>
   <version>1.0.0</version>
   <properties>
