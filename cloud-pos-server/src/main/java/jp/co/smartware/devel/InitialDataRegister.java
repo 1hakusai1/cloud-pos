@@ -59,10 +59,16 @@ public class InitialDataRegister {
     private void initOrderData() throws OrderRepositoryException {
         logger.info("Start registering orders data...");
         for (int i = 1; i <= 100; i++) {
+            int orderAmount;
+            if (i % 10 == 0) {
+                orderAmount = i * 10;
+            } else {
+                orderAmount = i;
+            }
             orderRepository.create(
                     new OrderID(String.valueOf(i)),
                     new LPNumber(String.valueOf(i)),
-                    Map.of(new JANCode(String.valueOf(i)), i));
+                    Map.of(new JANCode(String.valueOf(i)), orderAmount));
         }
         logger.info("...Complete");
     }
