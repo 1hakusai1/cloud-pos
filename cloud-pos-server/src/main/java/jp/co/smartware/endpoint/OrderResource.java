@@ -1,7 +1,6 @@
 package jp.co.smartware.endpoint;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -37,14 +36,7 @@ public class OrderResource {
             return null;
         }
         Order order = found.get();
-        OrderDTO dto = new OrderDTO();
-        dto.orderID = order.getOrderID().getValue();
-        dto.lpNumber = order.getLpNumber().getValue();
-        dto.orderedProducts = order.getOrderedProducts().keySet().stream()
-                .collect(Collectors.toMap(
-                        key -> key.getValue(),
-                        key -> order.getOrderedProducts().get(key)));
-        return dto;
+        return OrderDTO.fromOrder(order);
     }
 
 }

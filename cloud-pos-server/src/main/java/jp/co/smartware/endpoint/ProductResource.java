@@ -36,13 +36,7 @@ public class ProductResource {
             return null;
         }
         Product product = found.get();
-        ProductDTO dto = new ProductDTO();
-        dto.jancode = product.getJanCode().getValue();
-        dto.japaneseProductName = product.getJapaneseProductName().getValue();
-        dto.chineseProductName = product.getChineseProductName().getValue();
-        dto.url = product.getImageURL() != null ? product.getImageURL().toString() : null;
-        dto.inventoryQuantity = product.getInventoryQuantity();
-        return dto;
+        return ProductDTO.fromProduct(product);
     }
 
 }
