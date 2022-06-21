@@ -8,11 +8,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import io.smallrye.mutiny.Uni;
+import io.smallrye.mutiny.unchecked.Unchecked;
 import jp.co.smartware.dto.ProductDTO;
 import jp.co.smartware.product.JANCode;
 import jp.co.smartware.product.Product;
 import jp.co.smartware.product.ProductRepository;
-import jp.co.smartware.product.ProductRepositoryException;
 
 @Path("/product")
 public class ProductResource {
@@ -23,20 +24,25 @@ public class ProductResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public ProductDTO get(String id) throws ProductRepositoryException {
-        Optional<Product> found = repository.findByJANCode(new JANCode(id));
+    public Uni<ProductDTO> get(String id) {
+        JANCode janCode = new JANCode(id);
+        return Uni.createFrom().item(janCode)
+                .onItem().transform(Unchecked.function(item -> repository.findByJANCode(item)))
+                .onItem().transform(found -> convert(found));
+    }
+
+    private ProductDTO convert(Optional<Product> found) {
         if (found.isEmpty()) {
             return null;
-        } else {
-            Product product = found.get();
-            ProductDTO dto = new ProductDTO();
-            dto.jancode = product.getJanCode().getValue();
-            dto.japaneseProductName = product.getJapaneseProductName().getValue();
-            dto.chineseProductName = product.getChineseProductName().getValue();
-            dto.url = product.getImageURL() != null ? product.getImageURL().toString() : null;
-            dto.inventoryQuantity = product.getInventoryQuantity();
-            return dto;
         }
+        Product product = found.get();
+        ProductDTO dto = new ProductDTO();
+        dto.jancode = product.getJanCode().getValue();
+        dto.japaneseProductName = product.getJapaneseProductName().getValue();
+        dto.chineseProductName = product.getChineseProductName().getValue();
+        dto.url = product.getImageURL() != null ? product.getImageURL().toString() : null;
+        dto.inventoryQuantity = product.getInventoryQuantity();
+        return dto;
     }
 
 }
