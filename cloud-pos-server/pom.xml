@@ -33,6 +33,11 @@
   </dependencyManagement>
   <dependencies>
     <dependency>
+      <groupId>jp.co.smartware</groupId>
+      <artifactId>cloud-pos-core</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
     </dependency>
@@ -43,6 +48,10 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-reactive-qute</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
