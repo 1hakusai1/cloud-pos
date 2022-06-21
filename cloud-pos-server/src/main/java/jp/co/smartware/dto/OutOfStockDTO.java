@@ -1,7 +1,9 @@
 package jp.co.smartware.dto;
 
+import io.quarkus.qute.TemplateData;
 import jp.co.smartware.usecase.outofstock.OutOfStockProductInformation;
 
+@TemplateData
 public class OutOfStockDTO {
     public ProductDTO product;
     public int totalOrderedAmount;
