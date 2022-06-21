@@ -14,6 +14,7 @@ import org.jboss.logging.Logger;
 import io.quarkus.arc.log.LoggerName;
 import io.quarkus.runtime.StartupEvent;
 import jp.co.smartware.order.LPNumber;
+import jp.co.smartware.order.Order;
 import jp.co.smartware.order.OrderID;
 import jp.co.smartware.order.OrderRepository;
 import jp.co.smartware.order.OrderRepositoryException;
@@ -65,10 +66,18 @@ public class InitialDataRegister {
             } else {
                 orderAmount = i;
             }
+            OrderID orderID = new OrderID(String.valueOf(i));
+            LPNumber lpNumber = new LPNumber(String.valueOf(i));
             orderRepository.create(
-                    new OrderID(String.valueOf(i)),
-                    new LPNumber(String.valueOf(i)),
+                    orderID,
+                    lpNumber,
                     Map.of(new JANCode(String.valueOf(i)), orderAmount));
+
+            if (i % 5 != 0) {
+                Order order = orderRepository.findByID(orderID).get();
+                order.complete();
+                orderRepository.update(order);
+            }
         }
         logger.info("...Complete");
     }

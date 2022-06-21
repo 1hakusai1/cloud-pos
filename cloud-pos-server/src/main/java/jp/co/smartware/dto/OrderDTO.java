@@ -11,6 +11,7 @@ public class OrderDTO {
     public String orderID;
     public String lpNumber;
     public Map<String, Integer> orderedProducts;
+    public String status;
 
     public static OrderDTO fromOrder(Order order) {
         OrderDTO dto = new OrderDTO();
@@ -20,6 +21,7 @@ public class OrderDTO {
                 .collect(Collectors.toMap(
                         key -> key.getValue(),
                         key -> order.getOrderedProducts().get(key)));
+        dto.status = order.getStatus().toString();
         return dto;
     }
 }
