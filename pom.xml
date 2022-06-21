@@ -9,5 +9,6 @@
   <url>http://maven.apache.org</url>
   <modules>
     <module>cloud-pos-core</module>
+    <module>cloud-pos-server</module>
   </modules>
 </project>
