@@ -60,6 +60,10 @@ public class Product {
         inventoryQuantity = inventoryQuantity - shipmentNum;
     }
 
+    public void arrive(int amount) {
+        inventoryQuantity = inventoryQuantity + amount;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
