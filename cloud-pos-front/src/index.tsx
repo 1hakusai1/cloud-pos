@@ -1,7 +1,8 @@
+import { Grid } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { OutOfStockProductCard } from './component/OutOfStockProductCard';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -9,7 +10,13 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <React.StrictMode>
-        <App />
+        <Grid container justifyContent="center" sx={{ marginTop: 10 }}>
+            <OutOfStockProductCard
+                janCode='123456789'
+                orderedAmount={10}
+                lackedAmount={30}
+            />
+        </Grid>
     </React.StrictMode>
 );
 
