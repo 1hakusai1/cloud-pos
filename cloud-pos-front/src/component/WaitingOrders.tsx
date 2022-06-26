@@ -1,7 +1,7 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
 
 type orderInfo = {
-    id: string,
+    orderID: string,
     lpNumber: string,
     janCodes: string[],
     imageURLs: string[],
@@ -27,6 +27,7 @@ export const WaitingOrders = ({ orders }: Props) => {
             autoHeight
             checkboxSelection
             onSelectionModelChange={(ids) => console.log(ids)}
+            getRowId={(row) => row.orderID}
         />
     )
 }
