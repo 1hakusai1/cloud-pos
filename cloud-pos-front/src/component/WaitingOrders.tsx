@@ -12,7 +12,7 @@ type Props = {
 }
 
 const columuns: GridColDef[] = [
-    { field: "id", width: 200 },
+    { field: "id", headerName: "orderID", width: 200 },
     { field: "lpNumber", width: 200 },
     { field: "janCodes", width: 200 },
     { field: "imageURLs", width: 200, renderCell: (params) => <img height={30} src={params.row.imageURLs[0]} /> },
