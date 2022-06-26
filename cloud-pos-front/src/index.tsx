@@ -1,21 +1,25 @@
 import { Grid } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { OutOfStockProductCard } from './component/OutOfStockProductCard';
+import { WaitingOrders } from './component/WaitingOrders';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+
+const orders = [
+    { id: "100001", lpNumber: "200001", janCodes: ["300001"], imageURLs: ["https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg"] },
+    { id: "100002", lpNumber: "200002", janCodes: ["300002"], imageURLs: ["https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg"] },
+    { id: "100003", lpNumber: "200003", janCodes: ["300003"], imageURLs: ["https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg"] },
+    { id: "100004", lpNumber: "200004", janCodes: ["300004"], imageURLs: ["https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg"] },
+]
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
 root.render(
+
     <React.StrictMode>
         <Grid container justifyContent="center" sx={{ marginTop: 10 }}>
-            <OutOfStockProductCard
-                janCode='123456789'
-                orderedAmount={10}
-                lackedAmount={30}
-            />
+            <WaitingOrders orders={orders} />
         </Grid>
     </React.StrictMode>
 );
