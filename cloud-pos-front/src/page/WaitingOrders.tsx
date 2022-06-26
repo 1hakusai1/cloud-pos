@@ -1,9 +1,9 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react"
 import { getWaitingOrder } from "../api-call/getWaitingOrder";
-import { orderInfo, WaitingOrders } from "../component/WaitingOrders"
+import { orderInfo, WaitingOrdersTable } from "../component/WaitingOrdersTable"
 
-export const WaitingOrdersPage = () => {
+export const WaitingOrders = () => {
 
     const [orders, setOrders] = useState<orderInfo[]>([]);
 
@@ -18,7 +18,7 @@ export const WaitingOrdersPage = () => {
             {
                 orders.length === 0 ?
                     <Box sx={{ textAlign: "center", marginTop: 5 }}><CircularProgress /></Box> :
-                    <WaitingOrders orders={orders} />
+                    <WaitingOrdersTable orders={orders} />
             }
         </>
     )

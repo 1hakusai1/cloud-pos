@@ -18,7 +18,7 @@ const columuns: GridColDef[] = [
     { field: "imageURLs", width: 200, renderCell: (params) => <img height={30} src={params.row.imageURLs[0]} /> },
 ]
 
-export const WaitingOrders = ({ orders }: Props) => {
+export const WaitingOrdersTable = ({ orders }: Props) => {
 
     return (
         <DataGrid

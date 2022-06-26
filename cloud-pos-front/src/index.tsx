@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import './index.css';
 import { Home } from './page/Home';
-import { WaitingOrdersPage } from './page/WaitingOrdersPage';
+import { WaitingOrders } from './page/WaitingOrders';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -15,7 +15,7 @@ root.render(
         <HashRouter>
             <Routes>
                 <Route path='/' element={<Home />} />
-                <Route path='/waiting' element={<WaitingOrdersPage />} />
+                <Route path='/waiting' element={<WaitingOrders />} />
             </Routes>
         </HashRouter>
     </React.StrictMode>
