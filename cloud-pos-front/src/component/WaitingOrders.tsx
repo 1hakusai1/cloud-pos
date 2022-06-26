@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
 
-type orderInfo = {
+export type orderInfo = {
     orderID: string,
     lpNumber: string,
     janCodes: string[],

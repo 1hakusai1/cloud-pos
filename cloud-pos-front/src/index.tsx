@@ -1,17 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { HashRouter, Route, Routes } from 'react-router-dom';
-import { Home } from './page/Home';
-import { WaitingOrders } from './component/WaitingOrders';
 import './index.css';
+import { Home } from './page/Home';
+import { WaitingOrdersPage } from './page/WaitingOrdersPage';
 import reportWebVitals from './reportWebVitals';
-
-const orders = [
-    { orderID: "100001", lpNumber: "200001", janCodes: ["300001"], imageURLs: ["https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg"] },
-    { orderID: "100002", lpNumber: "200002", janCodes: ["300002"], imageURLs: ["https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg"] },
-    { orderID: "100003", lpNumber: "200003", janCodes: ["300003"], imageURLs: ["https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg"] },
-    { orderID: "100004", lpNumber: "200004", janCodes: ["300004"], imageURLs: ["https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg"] },
-]
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -22,7 +15,7 @@ root.render(
         <HashRouter>
             <Routes>
                 <Route path='/' element={<Home />} />
-                <Route path='/waiting' element={<WaitingOrders orders={orders} />} />
+                <Route path='/waiting' element={<WaitingOrdersPage />} />
             </Routes>
         </HashRouter>
     </React.StrictMode>
