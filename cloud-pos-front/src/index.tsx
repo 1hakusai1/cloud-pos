@@ -23,6 +23,7 @@ root.render(
         <HashRouter>
             <Routes>
                 <Route path='/' element={<Home />} />
+                <Route path='/waiting' element={<WaitingOrders orders={orders} />} />
             </Routes>
         </HashRouter>
     </React.StrictMode>
