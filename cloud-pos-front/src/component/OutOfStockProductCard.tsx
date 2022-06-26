@@ -1,4 +1,4 @@
-import { Card, CardMedia, Grid, Typography } from "@mui/material"
+import { Card, CardMedia, Grid, Typography } from "@mui/material";
 
 type Props = {
     janCode: string,

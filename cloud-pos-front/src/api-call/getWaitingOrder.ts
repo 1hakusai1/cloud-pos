@@ -1,4 +1,4 @@
-import { orderInfo } from "../component/WaitingOrdersTable"
+import { orderInfo } from "../component/WaitingOrdersTable";
 import { sleep } from "../dev/sleep";
 
 export const getWaitingOrder = async () => {

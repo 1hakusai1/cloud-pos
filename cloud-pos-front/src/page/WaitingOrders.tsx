@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from "@mui/material";
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { getWaitingOrder } from "../api-call/getWaitingOrder";
-import { orderInfo, WaitingOrdersTable } from "../component/WaitingOrdersTable"
+import { orderInfo, WaitingOrdersTable } from "../component/WaitingOrdersTable";
 
 export const WaitingOrders = () => {
 
