@@ -1,6 +1,8 @@
 import { Grid } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { HashRouter, Route, Routes } from 'react-router-dom';
+import { Home } from './component/Home';
 import { WaitingOrders } from './component/WaitingOrders';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
@@ -18,9 +20,11 @@ const root = ReactDOM.createRoot(
 root.render(
 
     <React.StrictMode>
-        <Grid container justifyContent="center" sx={{ marginTop: 10 }}>
-            <WaitingOrders orders={orders} />
-        </Grid>
+        <HashRouter>
+            <Routes>
+                <Route path='/' element={<Home />} />
+            </Routes>
+        </HashRouter>
     </React.StrictMode>
 );
 
