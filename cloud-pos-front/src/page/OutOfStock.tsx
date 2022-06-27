@@ -24,7 +24,7 @@ export const OutOfStock = () => {
                 <>
                     {
                         produsts.map((product) =>
-                            <Box sx={{ margin: 1 }}>
+                            <Box sx={{ margin: 3 }} key={product.janCode}>
                                 <Grid container justifyContent={"center"}>
                                     <OutOfStockProductCard
                                         janCode={product.janCode}
