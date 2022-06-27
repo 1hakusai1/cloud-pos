@@ -1,5 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { productArrive } from "../api-call/productArrive"
 
 type Props = {
@@ -10,9 +11,10 @@ type Props = {
 
 export const ProductArrivalDialog = ({ janCode, open, onClose }: Props) => {
     const [numberRecieved, setNumberRecieved] = useState<number>(0);
+    const navigate = useNavigate();
     const handleButtonClick = async () => {
         await productArrive(janCode, numberRecieved);
-        onClose();
+        navigate(0);
     }
 
     return (
