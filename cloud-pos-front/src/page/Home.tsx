@@ -8,6 +8,9 @@ export const Home = () => {
             <Link to={"/waiting"}>
                 <Typography variant="h6" textAlign={"center"}>wating orders</Typography>
             </Link>
+            <Link to={"/outofstock"}>
+                <Typography variant="h6" textAlign={"center"}>out of stock</Typography>
+            </Link>
         </>
     )
 }

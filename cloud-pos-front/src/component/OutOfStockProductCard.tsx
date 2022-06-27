@@ -1,13 +1,13 @@
 import { Card, CardMedia, Grid, Typography } from "@mui/material";
 
-type Props = {
+export type outOfStockProductInfo = {
     janCode: string,
     imageURL?: string,
     orderedAmount: number,
     lackedAmount: number,
 }
 
-export const OutOfStockProductCard = ({ janCode, imageURL, orderedAmount, lackedAmount }: Props) => {
+export const OutOfStockProductCard = ({ janCode, imageURL, orderedAmount, lackedAmount }: outOfStockProductInfo) => {
     const url = imageURL ? imageURL : "https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg";
     return (
         <>
