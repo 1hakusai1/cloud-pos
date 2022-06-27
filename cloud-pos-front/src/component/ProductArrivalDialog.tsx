@@ -25,6 +25,7 @@ export const ProductArrivalDialog = ({ janCode, open, onClose }: Props) => {
                     type={"number"}
                     onChange={event => setNumberRecieved(parseInt(event.target.value))}
                     value={numberRecieved}
+                    inputProps={{ min: 0 }}
                 />
             </DialogContent>
             <DialogActions>
