@@ -1,3 +1,4 @@
+import { Button } from "@mui/material"
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
 
 export type orderInfo = {
@@ -28,6 +29,9 @@ export const WaitingOrdersTable = ({ orders }: Props) => {
             checkboxSelection
             onSelectionModelChange={(ids) => console.log(ids)}
             getRowId={(row) => row.orderID}
+            components={{
+                Toolbar:()=><Button variant="contained" sx={{m:1}}>complete</Button>
+            }}
         />
     )
 }
