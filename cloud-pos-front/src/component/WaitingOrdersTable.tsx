@@ -30,7 +30,7 @@ export const WaitingOrdersTable = ({ orders }: Props) => {
             onSelectionModelChange={(ids) => console.log(ids)}
             getRowId={(row) => row.orderID}
             components={{
-                Toolbar:()=><Button variant="contained" sx={{m:1}}>complete</Button>
+                Toolbar: () => <Button variant="contained" sx={{ m: 1 }}>complete</Button>
             }}
         />
     )
