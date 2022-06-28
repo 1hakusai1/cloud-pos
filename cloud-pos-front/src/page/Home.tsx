@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material"
+import { Box } from "@mui/system"
 import { Link } from "react-router-dom"
 import { OrderCSVImportButton } from "../component/OrderCSVImportButton"
 
@@ -12,7 +13,9 @@ export const Home = () => {
             <Link to={"/outofstock"}>
                 <Typography variant="h6" textAlign={"center"}>out of stock</Typography>
             </Link>
-            <OrderCSVImportButton />
+            <Box textAlign="center" mt={2}>
+                <OrderCSVImportButton />
+            </Box>
         </>
     )
 }
