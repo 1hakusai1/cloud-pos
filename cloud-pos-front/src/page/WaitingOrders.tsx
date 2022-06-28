@@ -18,7 +18,7 @@ export const WaitingOrders = () => {
             {
                 orders.length === 0 ?
                     <Box sx={{ textAlign: "center", marginTop: 5 }}><CircularProgress /></Box> :
-                    <Grid container justifyContent="center">
+                    <Grid container justifyContent="center" mt={3}>
                         <Grid item width={900}>
                             <WaitingOrdersTable orders={orders} />
                         </Grid>
