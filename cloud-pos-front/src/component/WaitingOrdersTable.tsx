@@ -1,5 +1,8 @@
 import { Button } from "@mui/material"
-import { DataGrid, GridColDef } from "@mui/x-data-grid"
+import { DataGrid, GridColDef, GridSelectionModel } from "@mui/x-data-grid"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { complteOrders } from "../api-call/completeOrders"
 
 export type orderInfo = {
     orderID: string,
@@ -21,16 +24,35 @@ const columuns: GridColDef[] = [
 
 export const WaitingOrdersTable = ({ orders }: Props) => {
 
+    const [selectedIDs, setSelectedIDs] = useState<GridSelectionModel>([]);
+
+    const navigate = useNavigate();
+
+    const submitData = async () => {
+        await complteOrders(selectedIDs as string[]);
+        navigate(0);
+    }
+
+    const SubmitButton = () => {
+        return (
+            <Button
+                variant="contained"
+                sx={{ m: 1 }}
+                onClick={submitData}
+                disabled={selectedIDs.length === 0}>complete</Button>
+        )
+    }
+
     return (
         <DataGrid
             columns={columuns}
             rows={orders}
             autoHeight
             checkboxSelection
-            onSelectionModelChange={(ids) => console.log(ids)}
+            onSelectionModelChange={setSelectedIDs}
             getRowId={(row) => row.orderID}
             components={{
-                Toolbar: () => <Button variant="contained" sx={{ m: 1 }}>complete</Button>
+                Toolbar: SubmitButton
             }}
         />
     )
