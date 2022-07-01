@@ -19,7 +19,7 @@ const columuns: GridColDef[] = [
     { field: "orderID", headerName: "orderID", width: 200, sortable: false },
     { field: "lpNumber", width: 200, sortable: false },
     { field: "janCodes", width: 200, sortable: false },
-    { field: "imageURLs", width: 200, renderCell: (params) => <img height={30} src={params.row.imageURLs[0]} />, sortable: false },
+    { field: "imageURLs", width: 200, renderCell: (params) => <img height={30} src={params.row.imageURLs[0]} alt={params.row.orderID} />, sortable: false },
 ]
 
 export const WaitingOrdersTable = ({ orders }: Props) => {
