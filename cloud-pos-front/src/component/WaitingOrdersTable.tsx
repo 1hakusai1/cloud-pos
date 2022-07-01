@@ -16,10 +16,10 @@ type Props = {
 }
 
 const columuns: GridColDef[] = [
-    { field: "orderID", headerName: "orderID", width: 200 },
-    { field: "lpNumber", width: 200 },
-    { field: "janCodes", width: 200 },
-    { field: "imageURLs", width: 200, renderCell: (params) => <img height={30} src={params.row.imageURLs[0]} /> },
+    { field: "orderID", headerName: "orderID", width: 200, sortable: false },
+    { field: "lpNumber", width: 200, sortable: false },
+    { field: "janCodes", width: 200, sortable: false },
+    { field: "imageURLs", width: 200, renderCell: (params) => <img height={30} src={params.row.imageURLs[0]} />, sortable: false },
 ]
 
 export const WaitingOrdersTable = ({ orders }: Props) => {
@@ -54,6 +54,7 @@ export const WaitingOrdersTable = ({ orders }: Props) => {
             components={{
                 Toolbar: SubmitButton
             }}
+            disableColumnMenu
         />
     )
 }
