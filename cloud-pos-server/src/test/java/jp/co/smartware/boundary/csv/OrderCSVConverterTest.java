@@ -19,7 +19,7 @@ public class OrderCSVConverterTest {
 
     @Test
     public void _1商品のみの注文をCSVからDTOに変換できる() throws IOException {
-        List<OrderDTO> list = loadCSV("test1.csv");
+        List<OrderDTO> list = convertCSV("test1.csv");
         assertEquals(5, list.size());
         OrderDTO deserialized = findById(list, "1000000000000003").get();
         assertEquals("LP30000000000003", deserialized.lpNumber);
@@ -28,7 +28,7 @@ public class OrderCSVConverterTest {
 
     @Test
     public void 複数の商品が含まれる注文をCSVからDTOに変換できる() throws IOException {
-        List<OrderDTO> list = loadCSV("test2.csv");
+        List<OrderDTO> list = convertCSV("test2.csv");
         assertEquals(3, list.size());
         OrderDTO deserialized = findById(list, "1000000000000002").get();
         assertEquals(2, deserialized.orderedProducts.get("4000000000002"));
@@ -36,7 +36,7 @@ public class OrderCSVConverterTest {
         assertEquals(4, deserialized.orderedProducts.get("4000000000004"));
     }
 
-    private List<OrderDTO> loadCSV(String csvFileName) throws IOException {
+    private List<OrderDTO> convertCSV(String csvFileName) throws IOException {
         String resourcePath = "/" + csvFileName;
         try (
                 InputStream in = OrderCSVConverterTest.class.getResourceAsStream(resourcePath);
