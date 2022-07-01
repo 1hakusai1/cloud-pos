@@ -29,7 +29,7 @@ public class OrderCSVConverter {
                 dtoByOrderID.put(orderDTO.orderID, orderDTO);
             }
 
-            orderDTO.orderedProducts.put(row.janCode, Integer.parseInt(row.orderedAmount));
+            orderDTO.orderedProducts.put(row.janCode, row.orderedAmount);
         }
 
         return new ArrayList<>(dtoByOrderID.values());

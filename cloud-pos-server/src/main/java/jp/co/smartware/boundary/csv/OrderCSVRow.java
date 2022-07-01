@@ -14,6 +14,6 @@ public class OrderCSVRow {
     String janCode;
 
     @CsvBindByName(column = "商品数量")
-    String orderedAmount;
+    int orderedAmount;
 
 }
