@@ -50,6 +50,11 @@ public class InMemoryProductRepository extends ProductRepository {
         repository.put(janCode, copyInstance(product));
     }
 
+    @Override
+    public void clear() throws ProductRepositoryException {
+        repository.clear();
+    }
+
     public void deleteAll() {
         repository = new ConcurrentHashMap<>();
     }
