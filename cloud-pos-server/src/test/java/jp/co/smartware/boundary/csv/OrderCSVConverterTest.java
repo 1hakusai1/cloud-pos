@@ -11,10 +11,8 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-import io.quarkus.test.junit.QuarkusTest;
 import jp.co.smartware.dto.OrderDTO;
 
-@QuarkusTest
 public class OrderCSVConverterTest {
 
     @Test
