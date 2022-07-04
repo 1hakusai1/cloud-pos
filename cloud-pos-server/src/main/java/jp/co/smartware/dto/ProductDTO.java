@@ -1,9 +1,7 @@
 package jp.co.smartware.dto;
 
-import io.quarkus.qute.TemplateData;
 import jp.co.smartware.product.Product;
 
-@TemplateData
 public class ProductDTO {
     public String jancode;
     public String japaneseProductName;

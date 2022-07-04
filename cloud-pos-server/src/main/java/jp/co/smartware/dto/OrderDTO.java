@@ -3,10 +3,8 @@ package jp.co.smartware.dto;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import io.quarkus.qute.TemplateData;
 import jp.co.smartware.order.Order;
 
-@TemplateData
 public class OrderDTO {
     public String orderID;
     public String lpNumber;

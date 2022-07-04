@@ -1,5 +1,6 @@
 package jp.co.smartware.endpoint;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -9,8 +10,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import io.quarkus.qute.Template;
-import io.quarkus.qute.TemplateInstance;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.unchecked.Unchecked;
 import jp.co.smartware.dto.OrderDTO;
@@ -23,9 +22,6 @@ public class OrderResource {
 
     @Inject
     OrderRepository repository;
-
-    @Inject
-    Template waitingTemplate;
 
     @Path("/{id}")
     @GET
@@ -40,15 +36,14 @@ public class OrderResource {
     @Path("/waiting")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Uni<TemplateInstance> listWainting() {
+    public Uni<List<OrderDTO>> listWainting() {
         return Uni.createFrom()
                 .item(Unchecked.supplier(() -> repository.listAllWaitingOrder()))
                 .onItem()
                 .transform(
                         list -> list.stream()
                                 .map(order -> OrderDTO.fromOrder(order))
-                                .collect(Collectors.toList()))
-                .onItem().transform(list -> waitingTemplate.data("list", list));
+                                .collect(Collectors.toList()));
     }
 
     private OrderDTO convert(Optional<Order> found) {

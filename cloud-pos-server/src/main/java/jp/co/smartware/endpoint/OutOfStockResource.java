@@ -1,5 +1,6 @@
 package jp.co.smartware.endpoint;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -8,8 +9,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import io.quarkus.qute.Template;
-import io.quarkus.qute.TemplateInstance;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.unchecked.Unchecked;
 import jp.co.smartware.dto.OutOfStockDTO;
@@ -21,17 +20,13 @@ public class OutOfStockResource {
     @Inject
     OutOfStockDetector outOfStockDetector;
 
-    @Inject
-    Template outofstockTemplate;
-
     @GET
-    @Produces(MediaType.TEXT_HTML)
-    public Uni<TemplateInstance> get() {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Uni<List<OutOfStockDTO>> get() {
         return Uni.createFrom()
                 .item(Unchecked.supplier(() -> outOfStockDetector.listOutOfStockProducts()))
                 .onItem()
                 .transform(list -> list.stream().map(info -> OutOfStockDTO.fromInformation(info))
-                        .collect(Collectors.toList()))
-                .onItem().transform(list -> outofstockTemplate.data("list", list));
+                        .collect(Collectors.toList()));
     }
 }
