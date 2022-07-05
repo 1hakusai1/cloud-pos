@@ -1,6 +1,6 @@
 package jp.co.smartware.boundary.csv;
 
-import java.io.BufferedReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +10,7 @@ import jp.co.smartware.dto.ProductDTO;
 
 public class InventoyCSVConverter {
 
-    public List<ProductDTO> fromCSV(BufferedReader reader) {
+    public List<ProductDTO> fromCSV(Reader reader) {
         CsvToBeanBuilder<InventoryCSVRow> builder = new CsvToBeanBuilder<>(reader);
         builder.withType(InventoryCSVRow.class);
 
