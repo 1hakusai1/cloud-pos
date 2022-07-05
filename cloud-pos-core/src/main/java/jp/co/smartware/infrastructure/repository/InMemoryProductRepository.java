@@ -65,7 +65,7 @@ public class InMemoryProductRepository extends ProductRepository {
 
     private Product copyInstance(Product source) {
         return createProductInstance(source.getJanCode(), source.getJapaneseProductName(),
-                source.getChineseProductName(), source.getImageURL(), source.getInventoryQuantity());
+                source.getChineseProductName(), source.getImageURL().orElse(null), source.getInventoryQuantity());
     }
 
 }

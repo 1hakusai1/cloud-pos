@@ -1,13 +1,14 @@
 package jp.co.smartware.product;
 
 import java.net.URL;
+import java.util.Optional;
 
 public class Product {
 
     private final JANCode janCode;
     private JapaneseProductName japaneseProductName;
     private ChineseProductName chineseProductName;
-    private URL imageURL;
+    private Optional<URL> imageURL;
     private int inventoryQuantity;
 
     Product(
@@ -25,7 +26,7 @@ public class Product {
         this.janCode = janCode;
         this.japaneseProductName = japaneseProductName;
         this.chineseProductName = chineseProductName;
-        this.imageURL = imageURL;
+        this.imageURL = Optional.ofNullable(imageURL);
         this.inventoryQuantity = inventoryQuantity;
     }
 
@@ -45,7 +46,7 @@ public class Product {
         return chineseProductName;
     }
 
-    public URL getImageURL() {
+    public Optional<URL> getImageURL() {
         return imageURL;
     }
 
