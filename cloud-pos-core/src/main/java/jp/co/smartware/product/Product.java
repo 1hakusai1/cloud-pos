@@ -6,8 +6,8 @@ import java.util.Optional;
 public class Product {
 
     private final JANCode janCode;
-    private JapaneseProductName japaneseProductName;
-    private ChineseProductName chineseProductName;
+    private Optional<JapaneseProductName> japaneseProductName;
+    private Optional<ChineseProductName> chineseProductName;
     private Optional<URL> imageURL;
     private int inventoryQuantity;
 
@@ -27,8 +27,8 @@ public class Product {
             throw new IllegalArgumentException("Inventory quantity must be more than 0.");
         }
         this.janCode = janCode;
-        this.japaneseProductName = japaneseProductName;
-        this.chineseProductName = chineseProductName;
+        this.japaneseProductName = Optional.ofNullable(japaneseProductName);
+        this.chineseProductName = Optional.ofNullable(chineseProductName);
         this.imageURL = Optional.ofNullable(imageURL);
         this.inventoryQuantity = inventoryQuantity;
     }
@@ -41,11 +41,11 @@ public class Product {
         return janCode;
     }
 
-    public JapaneseProductName getJapaneseProductName() {
+    public Optional<JapaneseProductName> getJapaneseProductName() {
         return japaneseProductName;
     }
 
-    public ChineseProductName getChineseProductName() {
+    public Optional<ChineseProductName> getChineseProductName() {
         return chineseProductName;
     }
 
