@@ -17,8 +17,11 @@ public class Product {
             final ChineseProductName chineseProductName,
             final URL imageURL,
             final int inventoryQuantity) {
-        if (janCode == null || japaneseProductName == null || chineseProductName == null) {
-            throw new NullPointerException("Some required parameter is null.");
+        if (janCode == null) {
+            throw new NullPointerException("JANCode is null.");
+        }
+        if (japaneseProductName == null && chineseProductName == null) {
+            throw new NullPointerException("Either JapaneseProductName or ChineseProductName is required");
         }
         if (inventoryQuantity < 0) {
             throw new IllegalArgumentException("Inventory quantity must be more than 0.");

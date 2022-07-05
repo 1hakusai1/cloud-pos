@@ -1,5 +1,6 @@
 package jp.co.smartware.product;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -33,16 +34,19 @@ public class ProductTest {
     }
 
     @Test
-    public void 日本語表示名をnullで初期化すると例外を投げる() {
+    public void 日本語表示名と中国語表示名の両方をnullで初期化すると例外を投げる() {
         assertThrows(NullPointerException.class, () -> {
-            new Product(janCode, null, chineseProductName, imageURL, 0);
+            new Product(janCode, null, null, imageURL, 0);
         });
     }
 
     @Test
-    public void 中国語表示名をnullで初期化すると例外を投げる() {
-        assertThrows(NullPointerException.class, () -> {
+    public void 表示名はどちらか片方が指定されていればよい() {
+        assertDoesNotThrow(() -> {
             new Product(janCode, japaneseProductName, null, imageURL, 0);
+        });
+        assertDoesNotThrow(() -> {
+            new Product(janCode, null, chineseProductName, imageURL, 0);
         });
     }
 
