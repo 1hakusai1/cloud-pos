@@ -53,6 +53,10 @@ public class Product {
         return imageURL;
     }
 
+    public void setInventoryQuantity(int inventoryQuantity) {
+        this.inventoryQuantity = inventoryQuantity;
+    }
+
     public void ship(int shipmentNum) throws InventoryNotEnoughException {
         if (shipmentNum < 0) {
             throw new IllegalArgumentException("ShipmentNum is less than 0");
