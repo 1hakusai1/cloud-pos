@@ -51,6 +51,11 @@ public class InMemoryProductRepository extends ProductRepository {
     }
 
     @Override
+    public void delete(JANCode janCode) throws ProductRepositoryException {
+        repository.remove(janCode);
+    }
+
+    @Override
     public void clear() throws ProductRepositoryException {
         repository.clear();
     }

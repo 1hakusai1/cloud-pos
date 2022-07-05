@@ -16,6 +16,8 @@ public abstract class ProductRepository {
 
     abstract public void update(final Product product) throws ProductRepositoryException;
 
+    abstract public void delete(JANCode janCode) throws ProductRepositoryException;
+
     abstract public void clear() throws ProductRepositoryException;
 
     protected static Product createProductInstance(
