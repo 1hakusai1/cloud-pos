@@ -16,9 +16,11 @@ export const FileUploadButton = ({ uploadURL, buttonText }: Props) => {
         setStatus("uploading");
         try {
             const file = event.target.files![0];
+            const formData = new FormData();
+            formData.append("file", file);
             const response = await fetch(uploadURL, {
                 method: "POST",
-                body: file
+                body: formData
             });
             if (response.status !== 200) {
                 setStatus("error");
