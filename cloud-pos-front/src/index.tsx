@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import './index.css';
+import { Admin } from './page/Admin';
 import { Home } from './page/Home';
 import { OutOfStock } from './page/OutOfStock';
 import { WaitingOrders } from './page/WaitingOrders';
@@ -18,6 +19,7 @@ root.render(
                 <Route path='/' element={<Home />} />
                 <Route path='/waiting' element={<WaitingOrders />} />
                 <Route path='/outofstock' element={<OutOfStock />} />
+                <Route path='/admin' element={<Admin />} />
             </Routes>
         </HashRouter>
     </React.StrictMode>

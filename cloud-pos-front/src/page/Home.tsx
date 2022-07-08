@@ -16,6 +16,9 @@ export const Home = () => {
             <Box textAlign="center" mt={2}>
                 <FileUploadButton />
             </Box>
+            <Link to={"/admin"}>
+                <Typography variant="h6" textAlign={"center"}>admin page</Typography>
+            </Link>
         </>
     )
 }
