@@ -21,7 +21,7 @@ export const FileUploadButton = () => {
         if (status === "waiting") {
             return <>UPLOAD</>;
         } else if (status === "uploading") {
-            return <CircularProgress />;
+            return <CircularProgress size={30} />;
         } else if (status === "complete") {
             return <>OK</>;
         } else if (status === "error") {
