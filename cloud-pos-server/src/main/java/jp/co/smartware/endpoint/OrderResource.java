@@ -1,21 +1,28 @@
 package jp.co.smartware.endpoint;
 
-import java.io.Reader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.jboss.logging.Logger;
+
+import io.quarkus.arc.log.LoggerName;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.unchecked.Unchecked;
 import jp.co.smartware.boundary.csv.OrderCSVConverter;
+import jp.co.smartware.boundary.form.FileUploadFormData;
 import jp.co.smartware.dto.OrderDTO;
 import jp.co.smartware.order.LPNumber;
 import jp.co.smartware.order.Order;
@@ -29,6 +36,9 @@ public class OrderResource {
 
     @Inject
     OrderRepository repository;
+
+    @LoggerName("debug")
+    Logger logger;
 
     @Path("/{id}")
     @GET
@@ -55,7 +65,11 @@ public class OrderResource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Uni<Map<String, String>> importCSV(Reader reader) throws OrderRepositoryException {
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Uni<Map<String, String>> importCSV(FileUploadFormData data)
+            throws OrderRepositoryException, IOException {
+        FileInputStream in = new FileInputStream(data.file);
+        InputStreamReader reader = new InputStreamReader(in, "UTF-8");
         OrderCSVConverter converter = new OrderCSVConverter();
         List<OrderDTO> dtos = converter.fromCSV(reader);
         for (OrderDTO dto : dtos) {
