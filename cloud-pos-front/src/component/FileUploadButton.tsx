@@ -5,10 +5,11 @@ import { sleep } from "../dev/sleep";
 type Status = "waiting" | "uploading" | "complete" | "error";
 
 type Props = {
-    uploadURL: string
+    uploadURL: string,
+    buttonText?: string
 };
 
-export const FileUploadButton = ({ uploadURL }: Props) => {
+export const FileUploadButton = ({ uploadURL, buttonText }: Props) => {
 
     const [status, setStatus] = useState<Status>("waiting");
 
@@ -33,7 +34,7 @@ export const FileUploadButton = ({ uploadURL }: Props) => {
 
     const getButtonContent = (status: Status) => {
         if (status === "waiting") {
-            return <>UPLOAD</>;
+            return buttonText ? <>{buttonText}</> : <>UPLOAD</>
         } else if (status === "uploading") {
             return <CircularProgress size={30} />;
         } else if (status === "complete") {
