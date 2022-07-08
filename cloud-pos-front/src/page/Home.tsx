@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { Link } from "react-router-dom"
-import { OrderCSVImportButton } from "../component/OrderCSVImportButton"
+import { FileUploadButton } from "../component/FileUploadButton"
 
 export const Home = () => {
     return (
@@ -14,7 +14,7 @@ export const Home = () => {
                 <Typography variant="h6" textAlign={"center"}>out of stock</Typography>
             </Link>
             <Box textAlign="center" mt={2}>
-                <OrderCSVImportButton />
+                <FileUploadButton />
             </Box>
         </>
     )
