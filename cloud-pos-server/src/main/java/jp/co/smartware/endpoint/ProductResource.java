@@ -1,5 +1,9 @@
 package jp.co.smartware.endpoint;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -8,16 +12,21 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.jboss.logging.Logger;
+
+import io.quarkus.arc.log.LoggerName;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.unchecked.Unchecked;
 import jp.co.smartware.boundary.csv.InventoyCSVConverter;
 import jp.co.smartware.boundary.csv.ProductInfoCSVConverter;
+import jp.co.smartware.boundary.form.FileUploadFormData;
 import jp.co.smartware.dto.ProductDTO;
 import jp.co.smartware.product.ChineseProductName;
 import jp.co.smartware.product.JANCode;
@@ -31,6 +40,9 @@ public class ProductResource {
 
     @Inject
     ProductRepository repository;
+
+    @LoggerName("debug")
+    Logger logger;
 
     @GET
     @Path("/{id}")
@@ -63,18 +75,23 @@ public class ProductResource {
     @POST
     @Path("/info")
     @Produces(MediaType.APPLICATION_JSON)
-    public Uni<Map<String, String>> importProductInfoCSV(Reader reader)
-            throws ProductRepositoryException, MalformedURLException {
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Uni<Map<String, String>> importProductInfoCSV(FileUploadFormData data)
+            throws ProductRepositoryException, IOException {
+        File file = data.file;
+        FileInputStream in = new FileInputStream(file);
+        InputStreamReader isr = new InputStreamReader(in, "UTF-8");
+
         ProductInfoCSVConverter converter = new ProductInfoCSVConverter();
-        List<ProductDTO> dtos = converter.fromCSV(reader);
+        List<ProductDTO> dtos = converter.fromCSV(isr);
         for (ProductDTO dto : dtos) {
+            int currentInventory = 0;
             Optional<Product> found = repository.findByJANCode(new JANCode(dto.jancode));
-            if (found.isEmpty()) {
-                continue;
+            if (found.isPresent()) {
+                Product product = found.get();
+                currentInventory = product.getInventoryQuantity();
+                repository.delete(product.getJanCode());
             }
-            Product product = found.get();
-            int currentInventory = product.getInventoryQuantity();
-            repository.delete(product.getJanCode());
             JANCode janCode = new JANCode(dto.jancode);
             JapaneseProductName japaneseProductName = null;
             if (dto.japaneseProductName != null) {
@@ -85,8 +102,12 @@ public class ProductResource {
                 chineseProductName = new ChineseProductName(dto.chineseProductName);
             }
             URL imageURL = null;
-            if (dto.imageURL != null) {
-                imageURL = new URL(dto.imageURL);
+            if (dto.imageURL != null && !dto.imageURL.isEmpty()) {
+                try {
+                    imageURL = new URL(dto.imageURL);
+                } catch (MalformedURLException e) {
+                    logger.error(dto.japaneseProductName, e);
+                }
             }
             repository.create(janCode, japaneseProductName, chineseProductName, imageURL, currentInventory);
         }
