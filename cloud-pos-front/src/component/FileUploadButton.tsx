@@ -4,17 +4,31 @@ import { sleep } from "../dev/sleep";
 
 type Status = "waiting" | "uploading" | "complete" | "error";
 
-export const FileUploadButton = () => {
+type Props = {
+    uploadURL: string
+};
+
+export const FileUploadButton = ({ uploadURL }: Props) => {
 
     const [status, setStatus] = useState<Status>("waiting");
 
     const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
         setStatus("uploading");
-        const file = event.target.files![0];
-        const content = await file.text();
-        console.log(content);
-        await sleep(1);
-        setStatus("complete");
+        try {
+            const file = event.target.files![0];
+            const response = await fetch(uploadURL, {
+                method: "POST",
+                body: file
+            });
+            if (response.status !== 200) {
+                setStatus("error");
+                return;
+            }
+            setStatus("complete");
+        } catch (e) {
+            console.error(e);
+            setStatus("error");
+        }
     }
 
     const getButtonContent = (status: Status) => {
