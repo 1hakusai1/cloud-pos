@@ -1,6 +1,5 @@
-import { Button, CircularProgress } from "@mui/material"
+import { Button, CircularProgress } from "@mui/material";
 import { ChangeEvent, useState } from "react";
-import { sleep } from "../dev/sleep";
 
 type Status = "waiting" | "uploading" | "complete" | "error";
 
