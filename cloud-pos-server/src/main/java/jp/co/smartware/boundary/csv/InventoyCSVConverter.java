@@ -19,7 +19,7 @@ public class InventoyCSVConverter {
         List<ProductDTO> dtos = new ArrayList<>();
         for (InventoryCSVRow row : rows) {
             ProductDTO dto = new ProductDTO();
-            dto.jancode = row.jancode;
+            dto.jancode = row.jancode.replaceAll("\\s", "");
             dto.inventoryQuantity = row.inventoryQuantity;
             dtos.add(dto);
         }

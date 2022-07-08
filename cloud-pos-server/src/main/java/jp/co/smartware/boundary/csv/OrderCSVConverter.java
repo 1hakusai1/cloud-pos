@@ -23,7 +23,7 @@ public class OrderCSVConverter {
             OrderDTO orderDTO = dtoByOrderID.get(row.orderID);
             if (orderDTO == null) {
                 orderDTO = new OrderDTO();
-                orderDTO.orderID = row.orderID;
+                orderDTO.orderID = row.orderID.replaceAll("\\s", "");
                 orderDTO.lpNumber = row.lpNumber;
                 orderDTO.orderedProducts = new HashMap<>();
                 dtoByOrderID.put(orderDTO.orderID, orderDTO);

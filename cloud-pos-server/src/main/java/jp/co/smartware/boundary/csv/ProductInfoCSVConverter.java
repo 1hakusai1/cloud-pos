@@ -19,7 +19,7 @@ public class ProductInfoCSVConverter {
         List<ProductDTO> dtos = new ArrayList<>();
         for (ProductInfoCSVRow row : rows) {
             ProductDTO dto = new ProductDTO();
-            dto.jancode = row.janCode;
+            dto.jancode = row.janCode.replaceAll("\\s", "");
             dto.japaneseProductName = row.japaneseProductName;
             dto.imageURL = row.imageURL;
             dto.inventoryQuantity = 0;
