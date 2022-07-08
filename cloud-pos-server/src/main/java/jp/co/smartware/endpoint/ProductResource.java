@@ -58,7 +58,7 @@ public class ProductResource {
         InventoyCSVConverter converter = new InventoyCSVConverter();
         List<ProductDTO> dtos = converter.fromCSV(reader);
         for (ProductDTO dto : dtos) {
-            Optional<Product> found = repository.findByJANCode(new JANCode(dto.jancode.replaceAll("\\s", "")));
+            Optional<Product> found = repository.findByJANCode(new JANCode(dto.jancode));
             if (found.isEmpty()) {
                 continue;
             }

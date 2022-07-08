@@ -8,7 +8,7 @@ public class JANCode {
         if (value == null) {
             throw new NullPointerException("JANCode value is null.");
         }
-        this.value = value;
+        this.value = value.replaceAll("\\s", "");
     }
 
     @Override
