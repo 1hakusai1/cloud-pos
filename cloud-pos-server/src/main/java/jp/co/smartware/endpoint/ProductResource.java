@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -19,9 +18,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.jboss.logging.Logger;
-
-import io.quarkus.arc.log.LoggerName;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.unchecked.Unchecked;
 import jp.co.smartware.boundary.csv.InventoyCSVConverter;
@@ -41,9 +37,6 @@ public class ProductResource {
     @Inject
     ProductRepository repository;
 
-    @LoggerName("debug")
-    Logger logger;
-
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -57,17 +50,25 @@ public class ProductResource {
     @POST
     @Path("/inventory")
     @Produces(MediaType.APPLICATION_JSON)
-    public Uni<Map<String, String>> importInventoryCSV(Reader reader) throws ProductRepositoryException {
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Uni<Map<String, String>> importInventoryCSV(FileUploadFormData data)
+            throws ProductRepositoryException, IOException {
+        FileInputStream in = new FileInputStream(data.file);
+        InputStreamReader reader = new InputStreamReader(in, "UTF-8");
         InventoyCSVConverter converter = new InventoyCSVConverter();
         List<ProductDTO> dtos = converter.fromCSV(reader);
         for (ProductDTO dto : dtos) {
-            Optional<Product> found = repository.findByJANCode(new JANCode(dto.jancode));
+            Optional<Product> found = repository.findByJANCode(new JANCode(dto.jancode.replaceAll("\\s", "")));
             if (found.isEmpty()) {
                 continue;
             }
             Product product = found.get();
             product.setInventoryQuantity(dto.inventoryQuantity);
-            repository.update(product);
+            try {
+                repository.update(product);
+            } catch (IllegalArgumentException e) {
+                // skip
+            }
         }
         return Uni.createFrom().item(Map.of("message", "ok"));
     }
@@ -106,7 +107,7 @@ public class ProductResource {
                 try {
                     imageURL = new URL(dto.imageURL);
                 } catch (MalformedURLException e) {
-                    logger.error(dto.japaneseProductName, e);
+                    // skip
                 }
             }
             repository.create(janCode, japaneseProductName, chineseProductName, imageURL, currentInventory);
