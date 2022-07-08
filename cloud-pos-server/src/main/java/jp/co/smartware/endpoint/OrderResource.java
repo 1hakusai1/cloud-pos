@@ -16,6 +16,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.io.input.BOMInputStream;
 import org.jboss.logging.Logger;
 
 import io.quarkus.arc.log.LoggerName;
@@ -69,7 +70,8 @@ public class OrderResource {
     public Uni<Map<String, String>> importCSV(FileUploadFormData data)
             throws OrderRepositoryException, IOException {
         FileInputStream in = new FileInputStream(data.file);
-        InputStreamReader reader = new InputStreamReader(in, "UTF-8");
+        BOMInputStream bomStream = new BOMInputStream(in);
+        InputStreamReader reader = new InputStreamReader(bomStream, "UTF-8");
         OrderCSVConverter converter = new OrderCSVConverter();
         List<OrderDTO> dtos = converter.fromCSV(reader);
         for (OrderDTO dto : dtos) {
