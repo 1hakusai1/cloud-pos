@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -54,7 +55,7 @@ public class ProductResource {
     public Uni<Map<String, String>> importInventoryCSV(FileUploadFormData data)
             throws ProductRepositoryException, IOException {
         FileInputStream in = new FileInputStream(data.file);
-        InputStreamReader reader = new InputStreamReader(in, "UTF-8");
+        InputStreamReader reader = new InputStreamReader(in, Charset.forName("MS932"));
         InventoyCSVConverter converter = new InventoyCSVConverter();
         List<ProductDTO> dtos = converter.fromCSV(reader);
         for (ProductDTO dto : dtos) {
@@ -81,7 +82,7 @@ public class ProductResource {
             throws ProductRepositoryException, IOException {
         File file = data.file;
         FileInputStream in = new FileInputStream(file);
-        InputStreamReader isr = new InputStreamReader(in, "UTF-8");
+        InputStreamReader isr = new InputStreamReader(in, Charset.forName("MS932"));
 
         ProductInfoCSVConverter converter = new ProductInfoCSVConverter();
         List<ProductDTO> dtos = converter.fromCSV(isr);
