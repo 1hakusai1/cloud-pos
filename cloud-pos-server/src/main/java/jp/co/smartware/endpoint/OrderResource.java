@@ -24,7 +24,7 @@ import jp.co.smartware.order.OrderRepository;
 import jp.co.smartware.order.OrderRepositoryException;
 import jp.co.smartware.product.JANCode;
 
-@Path("/order")
+@Path("/orders")
 public class OrderResource {
 
     @Inject

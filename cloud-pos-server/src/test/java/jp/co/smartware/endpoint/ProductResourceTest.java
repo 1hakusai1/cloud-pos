@@ -36,7 +36,7 @@ public class ProductResourceTest {
                 new URL("http://example.com"), 1);
 
         given()
-                .when().get("/product/{id}", 1)
+                .when().get("/products/{id}", 1)
                 .then().statusCode(200)
                 .body("jancode", is("1"));
     }

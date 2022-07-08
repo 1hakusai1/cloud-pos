@@ -26,7 +26,7 @@ import jp.co.smartware.product.Product;
 import jp.co.smartware.product.ProductRepository;
 import jp.co.smartware.product.ProductRepositoryException;
 
-@Path("/product")
+@Path("/products")
 public class ProductResource {
 
     @Inject
