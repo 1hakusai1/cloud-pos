@@ -6,21 +6,19 @@ import { OutOfStockProductCard, outOfStockProductInfo } from "../component/OutOf
 
 export const OutOfStock = () => {
     const [produsts, setProducts] = useState<outOfStockProductInfo[]>([]);
+    const [dataReady, setDataReady] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchData = async () => {
             const outOfStockProdusts = await getOutOfStockProducts();
             setProducts(outOfStockProdusts);
         }
-        fetchData();
+        fetchData().then(() => setDataReady(true));
     }, [])
 
     return (
         <>
-            {produsts.length === 0 ?
-                <Grid container justifyContent={"center"} sx={{ marginTop: 5 }}>
-                    <CircularProgress />
-                </Grid> :
+            {dataReady ?
                 <>
                     {
                         produsts.map((product) =>
@@ -36,7 +34,10 @@ export const OutOfStock = () => {
                             </Box>
                         )
                     }
-                </>
+                </> :
+                <Grid container justifyContent={"center"} sx={{ marginTop: 5 }}>
+                    <CircularProgress />
+                </Grid>
             }
         </>
     )
