@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import jp.co.smartware.order.OrderRepository;
 import jp.co.smartware.product.ProductRepository;
+import jp.co.smartware.usecase.arrive.ProductArrivalUsecase;
 import jp.co.smartware.usecase.complete.OrderCompleteUsecase;
 import jp.co.smartware.usecase.outofstock.OutOfStockDetector;
 
@@ -28,6 +29,12 @@ public class UseCaseProducer {
     @ApplicationScoped
     public OrderCompleteUsecase orderCompleteUsecase() {
         return new OrderCompleteUsecase(orderRepository, productRepository);
+    }
+
+    @Produces
+    @ApplicationScoped
+    public ProductArrivalUsecase productArrivalUsecase() {
+        return new ProductArrivalUsecase(productRepository);
     }
 
 }

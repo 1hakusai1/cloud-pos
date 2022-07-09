@@ -21,6 +21,7 @@ import javax.ws.rs.core.MediaType;
 
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.unchecked.Unchecked;
+import jp.co.smartware.boundary.arrival.ProductArrivalRequest;
 import jp.co.smartware.boundary.csv.InventoyCSVConverter;
 import jp.co.smartware.boundary.csv.ProductInfoCSVConverter;
 import jp.co.smartware.boundary.form.FileUploadFormData;
@@ -31,12 +32,16 @@ import jp.co.smartware.product.JapaneseProductName;
 import jp.co.smartware.product.Product;
 import jp.co.smartware.product.ProductRepository;
 import jp.co.smartware.product.ProductRepositoryException;
+import jp.co.smartware.usecase.arrive.ProductArrivalUsecase;
 
 @Path("/products")
 public class ProductResource {
 
     @Inject
     ProductRepository repository;
+
+    @Inject
+    ProductArrivalUsecase arrivalUsecase;
 
     @GET
     @Path("/{id}")
@@ -113,6 +118,15 @@ public class ProductResource {
             }
             repository.create(janCode, japaneseProductName, chineseProductName, imageURL, currentInventory);
         }
+        return Uni.createFrom().item(Map.of("message", "ok"));
+    }
+
+    @POST
+    @Path("/arrival")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Uni<Map<String, String>> productArrival(ProductArrivalRequest request) throws ProductRepositoryException {
+        JANCode janCode = new JANCode(request.janCode);
+        arrivalUsecase.arrive(janCode, request.amount);
         return Uni.createFrom().item(Map.of("message", "ok"));
     }
 
