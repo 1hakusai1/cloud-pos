@@ -1,25 +1,35 @@
 import { Button } from "@mui/material"
 import { DataGrid, GridColDef, GridSelectionModel } from "@mui/x-data-grid"
+import { type } from "@testing-library/user-event/dist/type"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { complteOrders } from "../api-call/completeOrders"
 
+type OrderedProduct = {
+    janCode: string,
+    amount: number
+}
+
 export type OrderInfo = {
     orderID: string,
     lpNumber: string,
-    janCodes: string[],
-    imageURLs: string[],
+    products: OrderedProduct[]
 }
 
 type Props = {
     orders: OrderInfo[]
 }
 
+const productColumnValueGetter = (params: any) => {
+    const products = params.row.products as OrderedProduct[];
+    const janCodeAndAmount = products.map(product => product.janCode + " x " + product.amount);
+    return janCodeAndAmount.join(", ");
+}
+
 const columuns: GridColDef[] = [
     { field: "orderID", headerName: "orderID", width: 200, sortable: false },
     { field: "lpNumber", width: 200, sortable: false },
-    { field: "janCodes", width: 200, sortable: false },
-    { field: "imageURLs", width: 200, renderCell: (params) => <img height={30} src={params.row.imageURLs[0]} alt={params.row.orderID} />, sortable: false },
+    { field: "products", width: 400, sortable: false, valueGetter: productColumnValueGetter }
 ]
 
 export const WaitingOrdersTable = ({ orders }: Props) => {
