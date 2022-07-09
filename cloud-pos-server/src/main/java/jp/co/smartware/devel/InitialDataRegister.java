@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import org.jboss.logging.Logger;
 
 import io.quarkus.arc.log.LoggerName;
+import io.quarkus.arc.properties.IfBuildProperty;
 import io.quarkus.runtime.StartupEvent;
 import jp.co.smartware.order.LPNumber;
 import jp.co.smartware.order.Order;
@@ -25,6 +26,7 @@ import jp.co.smartware.product.ProductRepository;
 import jp.co.smartware.product.ProductRepositoryException;
 
 @ApplicationScoped
+@IfBuildProperty(name = "register.dummy.data", stringValue = "true")
 public class InitialDataRegister {
 
     @LoggerName("InitialDataRegister")

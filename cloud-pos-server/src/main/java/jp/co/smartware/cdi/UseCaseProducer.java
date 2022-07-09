@@ -6,11 +6,13 @@ import javax.inject.Inject;
 
 import jp.co.smartware.order.OrderRepository;
 import jp.co.smartware.product.ProductRepository;
+import jp.co.smartware.usecase.arrive.ProductArrivalUsecase;
+import jp.co.smartware.usecase.complete.OrderCompleteUsecase;
 import jp.co.smartware.usecase.outofstock.OutOfStockDetector;
 
 @ApplicationScoped
 public class UseCaseProducer {
-    
+
     @Inject
     ProductRepository productRepository;
 
@@ -21,6 +23,18 @@ public class UseCaseProducer {
     @ApplicationScoped
     public OutOfStockDetector outOfStockDetector() {
         return new OutOfStockDetector(orderRepository, productRepository);
+    }
+
+    @Produces
+    @ApplicationScoped
+    public OrderCompleteUsecase orderCompleteUsecase() {
+        return new OrderCompleteUsecase(orderRepository, productRepository);
+    }
+
+    @Produces
+    @ApplicationScoped
+    public ProductArrivalUsecase productArrivalUsecase() {
+        return new ProductArrivalUsecase(productRepository);
     }
 
 }

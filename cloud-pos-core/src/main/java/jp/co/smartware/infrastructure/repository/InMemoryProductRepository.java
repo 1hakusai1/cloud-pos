@@ -35,7 +35,7 @@ public class InMemoryProductRepository extends ProductRepository {
     public Optional<Product> findByJANCode(JANCode jancode) {
         Product found = repository.get(jancode);
         if (found != null) {
-            return Optional.of(found);
+            return Optional.of(copyInstance(found));
         } else {
             return Optional.empty();
         }
@@ -47,7 +47,17 @@ public class InMemoryProductRepository extends ProductRepository {
         if (!exists(janCode)) {
             throw new ProductRepositoryException("No product is found for jancode: " + janCode.getValue());
         }
-        repository.put(janCode, product);
+        repository.put(janCode, copyInstance(product));
+    }
+
+    @Override
+    public void delete(JANCode janCode) throws ProductRepositoryException {
+        repository.remove(janCode);
+    }
+
+    @Override
+    public void clear() throws ProductRepositoryException {
+        repository.clear();
     }
 
     public void deleteAll() {
@@ -56,6 +66,15 @@ public class InMemoryProductRepository extends ProductRepository {
 
     private boolean exists(JANCode janCode) {
         return findByJANCode(janCode).isPresent();
+    }
+
+    private Product copyInstance(Product source) {
+        return createProductInstance(
+                source.getJanCode(),
+                source.getJapaneseProductName().orElse(null),
+                source.getChineseProductName().orElse(null),
+                source.getImageURL().orElse(null),
+                source.getInventoryQuantity());
     }
 
 }

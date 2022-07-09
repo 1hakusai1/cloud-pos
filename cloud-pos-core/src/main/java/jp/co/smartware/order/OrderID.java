@@ -7,7 +7,7 @@ public class OrderID {
         if (value == null) {
             throw new NullPointerException("OrderID value is null");
         }
-        this.value = value;
+        this.value = value.replaceAll("\\s", "");
     }
 
     @Override

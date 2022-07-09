@@ -36,7 +36,7 @@ public class InMemoryOrderRepository extends OrderRepository {
     public Optional<Order> findByID(OrderID orderID) {
         Order found = repository.get(orderID);
         if (found != null) {
-            return Optional.of(found);
+            return Optional.of(copyInstance(found));
         } else {
             return Optional.empty();
         }
@@ -46,6 +46,7 @@ public class InMemoryOrderRepository extends OrderRepository {
     public List<Order> listAllWaitingOrder() {
         return repository.values().stream()
                 .filter(order -> order.getStatus().equals(OrderStatus.WAITING))
+                .map(order -> copyInstance(order))
                 .collect(Collectors.toList());
     }
 
@@ -55,7 +56,7 @@ public class InMemoryOrderRepository extends OrderRepository {
         if (!exists(orderID)) {
             throw new OrderRepositoryException("Order is not found for orderID: " + orderID.getValue());
         }
-        repository.put(orderID, order);
+        repository.put(orderID, copyInstance(order));
     }
 
     public void delteAll() {
@@ -64,6 +65,11 @@ public class InMemoryOrderRepository extends OrderRepository {
 
     private boolean exists(OrderID orderID) {
         return findByID(orderID).isPresent();
+    }
+
+    private Order copyInstance(Order source) {
+        return createOrderInstance(source.getOrderID(), source.getLpNumber(), source.getOrderedProducts(),
+                source.getStatus());
     }
 
 }

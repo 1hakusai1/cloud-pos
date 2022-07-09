@@ -1,13 +1,14 @@
 package jp.co.smartware.product;
 
 import java.net.URL;
+import java.util.Optional;
 
 public class Product {
 
     private final JANCode janCode;
-    private JapaneseProductName japaneseProductName;
-    private ChineseProductName chineseProductName;
-    private URL imageURL;
+    private Optional<JapaneseProductName> japaneseProductName;
+    private Optional<ChineseProductName> chineseProductName;
+    private Optional<URL> imageURL;
     private int inventoryQuantity;
 
     Product(
@@ -16,16 +17,19 @@ public class Product {
             final ChineseProductName chineseProductName,
             final URL imageURL,
             final int inventoryQuantity) {
-        if (janCode == null || japaneseProductName == null || chineseProductName == null) {
-            throw new NullPointerException("Some required parameter is null.");
+        if (janCode == null) {
+            throw new NullPointerException("JANCode is null.");
+        }
+        if (japaneseProductName == null && chineseProductName == null) {
+            throw new NullPointerException("Either JapaneseProductName or ChineseProductName is required");
         }
         if (inventoryQuantity < 0) {
             throw new IllegalArgumentException("Inventory quantity must be more than 0.");
         }
         this.janCode = janCode;
-        this.japaneseProductName = japaneseProductName;
-        this.chineseProductName = chineseProductName;
-        this.imageURL = imageURL;
+        this.japaneseProductName = Optional.ofNullable(japaneseProductName);
+        this.chineseProductName = Optional.ofNullable(chineseProductName);
+        this.imageURL = Optional.ofNullable(imageURL);
         this.inventoryQuantity = inventoryQuantity;
     }
 
@@ -37,16 +41,20 @@ public class Product {
         return janCode;
     }
 
-    public JapaneseProductName getJapaneseProductName() {
+    public Optional<JapaneseProductName> getJapaneseProductName() {
         return japaneseProductName;
     }
 
-    public ChineseProductName getChineseProductName() {
+    public Optional<ChineseProductName> getChineseProductName() {
         return chineseProductName;
     }
 
-    public URL getImageURL() {
+    public Optional<URL> getImageURL() {
         return imageURL;
+    }
+
+    public void setInventoryQuantity(int inventoryQuantity) {
+        this.inventoryQuantity = inventoryQuantity;
     }
 
     public void ship(int shipmentNum) throws InventoryNotEnoughException {
