@@ -1,11 +1,11 @@
 import { Box, CircularProgress, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getWaitingOrder } from "../api-call/getWaitingOrder";
-import { orderInfo, WaitingOrdersTable } from "../component/WaitingOrdersTable";
+import { OrderInfo, WaitingOrdersTable } from "../component/WaitingOrdersTable";
 
 export const WaitingOrders = () => {
 
-    const [orders, setOrders] = useState<orderInfo[]>([]);
+    const [orders, setOrders] = useState<OrderInfo[]>([]);
 
     useEffect(() => {
         getWaitingOrder().then(res => {

@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { complteOrders } from "../api-call/completeOrders"
 
-export type orderInfo = {
+export type OrderInfo = {
     orderID: string,
     lpNumber: string,
     janCodes: string[],
@@ -12,7 +12,7 @@ export type orderInfo = {
 }
 
 type Props = {
-    orders: orderInfo[]
+    orders: OrderInfo[]
 }
 
 const columuns: GridColDef[] = [

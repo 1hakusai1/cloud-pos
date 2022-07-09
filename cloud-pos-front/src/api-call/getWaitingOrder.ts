@@ -1,8 +1,8 @@
-import { orderInfo } from "../component/WaitingOrdersTable";
+import { OrderInfo } from "../component/WaitingOrdersTable";
 import { sleep } from "../dev/sleep";
 
 export const getWaitingOrder = async () => {
-    const orders: orderInfo[] = [
+    const orders: OrderInfo[] = [
         { orderID: "100001", lpNumber: "200001", janCodes: ["300001"], imageURLs: ["https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg"] },
         { orderID: "100002", lpNumber: "200002", janCodes: ["300002"], imageURLs: ["https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg"] },
         { orderID: "100003", lpNumber: "200003", janCodes: ["300003"], imageURLs: ["https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg"] },
