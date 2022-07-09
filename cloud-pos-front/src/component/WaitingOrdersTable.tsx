@@ -5,14 +5,13 @@ import { useNavigate } from "react-router-dom"
 import { complteOrders } from "../api-call/completeOrders"
 
 type OrderedProduct = {
-    janCode: string,
-    amount: number
+    [key: string]: number
 }
 
 export type OrderInfo = {
     orderID: string,
     lpNumber: string,
-    products: OrderedProduct[]
+    orderedProducts: OrderedProduct[]
 }
 
 type Props = {
@@ -20,8 +19,8 @@ type Props = {
 }
 
 const productColumnValueGetter = (params: any) => {
-    const products = params.row.products as OrderedProduct[];
-    const janCodeAndAmount = products.map(product => product.janCode + " x " + product.amount);
+    const products = params.row.orderedProducts as OrderedProduct[];
+    const janCodeAndAmount = products.map(product => Object.keys(product)[0] + " x " + Object.values(product)[0]);
     return janCodeAndAmount.join(", ");
 }
 
