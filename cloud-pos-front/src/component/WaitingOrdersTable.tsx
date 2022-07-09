@@ -11,7 +11,7 @@ type OrderedProduct = {
 export type OrderInfo = {
     orderID: string,
     lpNumber: string,
-    orderedProducts: OrderedProduct[]
+    orderedProducts: OrderedProduct
 }
 
 type Props = {
@@ -19,8 +19,8 @@ type Props = {
 }
 
 const productColumnValueGetter = (params: any) => {
-    const products = params.row.orderedProducts as OrderedProduct[];
-    const janCodeAndAmount = products.map(product => Object.keys(product)[0] + " x " + Object.values(product)[0]);
+    const products = params.row.orderedProducts as OrderedProduct;
+    const janCodeAndAmount = Object.keys(products).map(janCode => janCode + " x " + products[janCode])
     return janCodeAndAmount.join(", ");
 }
 
