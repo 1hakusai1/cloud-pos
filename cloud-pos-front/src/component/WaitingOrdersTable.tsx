@@ -1,6 +1,5 @@
 import { Button } from "@mui/material"
 import { DataGrid, GridColDef, GridSelectionModel } from "@mui/x-data-grid"
-import { type } from "@testing-library/user-event/dist/type"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { complteOrders } from "../api-call/completeOrders"
