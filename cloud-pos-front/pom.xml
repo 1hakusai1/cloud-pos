@@ -66,6 +66,7 @@
               <goal>single</goal>
             </goals>
             <configuration>
+              <appendAssemblyId>false</appendAssemblyId>
               <descriptors>
                 <descriptor>assembly/front.xml</descriptor>
               </descriptors>
