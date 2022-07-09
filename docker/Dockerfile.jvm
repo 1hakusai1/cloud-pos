@@ -1,0 +1,21 @@
+FROM maven:3.8.6-openjdk-11 AS build
+
+USER root
+WORKDIR /root
+
+COPY . .
+
+RUN mvn clean package
+
+
+FROM openjdk:11
+
+WORKDIR /work
+COPY --from=build /root/cloud-pos-server/target/quarkus-app /work/
+
+RUN chmod -R 775 /work && chown -R 1001:1001 /work 
+
+EXPOSE 8080
+USER 1001
+
+CMD [ "java","-jar","quarkus-run.jar" ]
