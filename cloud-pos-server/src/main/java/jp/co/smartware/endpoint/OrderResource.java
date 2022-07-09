@@ -17,9 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.input.BOMInputStream;
-import org.jboss.logging.Logger;
 
-import io.quarkus.arc.log.LoggerName;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.unchecked.Unchecked;
 import jp.co.smartware.boundary.csv.OrderCSVConverter;
@@ -37,9 +35,6 @@ public class OrderResource {
 
     @Inject
     OrderRepository repository;
-
-    @LoggerName("debug")
-    Logger logger;
 
     @Path("/{id}")
     @GET
