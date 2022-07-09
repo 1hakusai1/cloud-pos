@@ -1,5 +1,4 @@
 import { outOfStockProductInfo } from "../component/OutOfStockProductCard";
-import { sleep } from "../dev/sleep";
 
 export const getOutOfStockProducts = async () => {
     const response = await fetch("/outofstock");
