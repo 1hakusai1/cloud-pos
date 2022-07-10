@@ -19,16 +19,20 @@ type Props = {
     orders: OrderInfo[]
 }
 
-const productColumnValueGetter = (params: any) => {
+const ProductColumn = (params: any) => {
     const products = params.row.orderedProducts as OrderedProduct;
     const janCodeAndAmount = Object.keys(products).map(janCode => janCode + " x " + products[janCode])
-    return janCodeAndAmount.join(", ");
+    return (
+        <ul>
+            {janCodeAndAmount.map(str => <li>{str}</li>)}
+        </ul>
+    )
 }
 
 const columuns: GridColDef[] = [
     { field: "orderID", headerName: "orderID", width: 200, sortable: false },
     { field: "lpNumber", width: 200, sortable: false },
-    { field: "products", width: 200, sortable: false, valueGetter: productColumnValueGetter },
+    { field: "products", width: 200, sortable: false, renderCell: ProductColumn },
     { field: "images", width: 200, sortable: false, renderCell: (params) => <MultipleProductImages janCodes={Object.keys(params.row.orderedProducts)} /> }
 ]
 
