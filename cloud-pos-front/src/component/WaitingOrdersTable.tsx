@@ -3,6 +3,7 @@ import { DataGrid, GridColDef, GridSelectionModel } from "@mui/x-data-grid"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { complteOrders } from "../api-call/completeOrders"
+import { MultipleProductImages } from "./ProductImage"
 
 type OrderedProduct = {
     [key: string]: number
@@ -27,7 +28,8 @@ const productColumnValueGetter = (params: any) => {
 const columuns: GridColDef[] = [
     { field: "orderID", headerName: "orderID", width: 200, sortable: false },
     { field: "lpNumber", width: 200, sortable: false },
-    { field: "products", width: 400, sortable: false, valueGetter: productColumnValueGetter }
+    { field: "products", width: 200, sortable: false, valueGetter: productColumnValueGetter },
+    { field: "images", width: 200, sortable: false, renderCell: (params) => <MultipleProductImages janCodes={Object.keys(params.row.orderedProducts)} /> }
 ]
 
 export const WaitingOrdersTable = ({ orders }: Props) => {
