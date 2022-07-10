@@ -69,6 +69,19 @@ export const WaitingOrdersTable = ({ orders }: Props) => {
                 Toolbar: SubmitButton
             }}
             disableColumnMenu
+            sx={{
+                "& .MuiDataGrid-renderingZone": {
+                    maxHeight: "none !important"
+                },
+                "& .MuiDataGrid-cell": {
+                    lineHeight: "unset !important",
+                    maxHeight: "none !important",
+                    whiteSpace: "normal"
+                },
+                "& .MuiDataGrid-row": {
+                    maxHeight: "none !important"
+                }
+            }}
         />
     )
 }
