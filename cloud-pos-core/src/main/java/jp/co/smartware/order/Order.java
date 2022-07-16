@@ -13,14 +13,14 @@ public class Order {
     private final Map<JANCode, Integer> orderedProducts;
     private OrderStatus status;
 
-    Order(
+    public Order(
             final OrderID orderID,
             final LPNumber lpNumber,
             final Map<JANCode, Integer> orderedProducts) {
         this(orderID, lpNumber, orderedProducts, OrderStatus.WAITING);
     }
 
-    Order(
+    public Order(
             final OrderID orderID,
             final LPNumber lpNumber,
             final Map<JANCode, Integer> orderedProducts,
