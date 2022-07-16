@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
@@ -38,6 +39,7 @@ public class InitialDataRegister {
     @Inject
     OrderRepository orderRepository;
 
+    @Transactional
     void onStart(@Observes StartupEvent event)
             throws MalformedURLException, ProductRepositoryException, OrderRepositoryException {
         logger.info("Start registering inital data...");
@@ -46,15 +48,19 @@ public class InitialDataRegister {
         logger.info("...Complete");
     }
 
-    private void initProductData() throws MalformedURLException, ProductRepositoryException {
+    private void initProductData() {
         logger.info("Start registering products data...");
         for (int i = 1; i <= 100; i++) {
-            productRepository.create(
-                    new JANCode(String.valueOf(i)),
-                    new JapaneseProductName(genRandomString()),
-                    new ChineseProductName(genRandomString()),
-                    new URL("https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg"),
-                    i);
+            try {
+                productRepository.create(
+                        new JANCode(String.valueOf(i)),
+                        new JapaneseProductName(genRandomString()),
+                        new ChineseProductName(genRandomString()),
+                        new URL("https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg"),
+                        i);
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         }
         logger.info("...Complete");
     }

@@ -11,7 +11,7 @@ public class Product {
     private Optional<URL> imageURL;
     private int inventoryQuantity;
 
-    Product(
+    public Product(
             final JANCode janCode,
             final JapaneseProductName japaneseProductName,
             final ChineseProductName chineseProductName,

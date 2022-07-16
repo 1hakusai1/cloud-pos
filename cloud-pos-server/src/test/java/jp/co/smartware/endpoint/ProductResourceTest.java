@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ public class ProductResourceTest {
     ProductRepository repository;
 
     @BeforeEach
+    @Transactional
     public void setup() throws ProductRepositoryException {
         repository.clear();
     }
@@ -32,13 +34,17 @@ public class ProductResourceTest {
     @Test
     public void IDを指定して商品情報を取得できる() throws ProductRepositoryException, MalformedURLException {
 
-        repository.create(new JANCode("1"), new JapaneseProductName("aa"), new ChineseProductName("aa"),
-                new URL("http://example.com"), 1);
-
+        createDate();
         given()
                 .when().get("/products/{id}", 1)
                 .then().statusCode(200)
                 .body("jancode", is("1"));
+    }
+
+    @Transactional
+    public void createDate() throws MalformedURLException, ProductRepositoryException {
+        repository.create(new JANCode("1"), new JapaneseProductName("aa"), new ChineseProductName("aa"),
+                new URL("http://example.com"), 1);
     }
 
 }

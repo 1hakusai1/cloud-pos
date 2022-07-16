@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -35,6 +36,7 @@ import jp.co.smartware.product.ProductRepositoryException;
 import jp.co.smartware.usecase.arrive.ProductArrivalUsecase;
 
 @Path("/products")
+@Transactional
 public class ProductResource {
 
     @Inject
