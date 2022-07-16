@@ -51,7 +51,6 @@ public class OrderResource {
     @Path("/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Transactional
     public Uni<OrderDTO> get(String id) {
         OrderID orderID = new OrderID(id);
         return Uni.createFrom().item(orderID)
