@@ -11,7 +11,7 @@ public class Product {
     private Optional<URL> imageURL;
     private int inventoryQuantity;
 
-    Product(
+    public Product(
             final JANCode janCode,
             final JapaneseProductName japaneseProductName,
             final ChineseProductName chineseProductName,
@@ -54,6 +54,9 @@ public class Product {
     }
 
     public void setInventoryQuantity(int inventoryQuantity) {
+        if (inventoryQuantity < 0) {
+            throw new IllegalArgumentException("Inventory quantity must be more than 0.");
+        }
         this.inventoryQuantity = inventoryQuantity;
     }
 

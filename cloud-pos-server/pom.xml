@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>jp.co.smartware</groupId>
@@ -39,8 +40,8 @@
     <dependency>
       <groupId>jp.co.smartware</groupId>
       <artifactId>cloud-pos-front</artifactId>
-      <type>zip</type>
       <version>1.0.0</version>
+      <type>zip</type>
     </dependency>
     <dependency>
       <groupId>com.opencsv</groupId>
@@ -66,6 +67,18 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-h2</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-orm-panache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-postgresql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>
       <scope>test</scope>
     </dependency>
@@ -78,7 +91,6 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
@@ -90,9 +102,7 @@
             <configuration>
               <includeGroupIds>jp.co.smartware</includeGroupIds>
               <includeArtifactIds>cloud-pos-front</includeArtifactIds>
-              <outputDirectory>
-                ${project.build.directory}/classes/META-INF/resources/
-              </outputDirectory>
+              <outputDirectory>${project.build.directory}/classes/META-INF/resources/</outputDirectory>
             </configuration>
           </execution>
         </executions>

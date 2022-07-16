@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,6 +18,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.input.BOMInputStream;
+import org.jboss.logging.Logger;
 
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.unchecked.Unchecked;
@@ -38,6 +40,9 @@ import jp.co.smartware.usecase.complete.OrderCompleteUsecase;
 public class OrderResource {
 
     @Inject
+    Logger logger;
+
+    @Inject
     OrderRepository repository;
 
     @Inject
@@ -56,6 +61,7 @@ public class OrderResource {
     @Path("/waiting")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
     public Uni<List<OrderDTO>> listWainting() {
         return Uni.createFrom()
                 .item(Unchecked.supplier(() -> repository.listAllWaitingOrder()))
@@ -69,7 +75,7 @@ public class OrderResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Uni<Map<String, String>> importCSV(FileUploadFormData data)
+    public Map<String, String> importCSV(FileUploadFormData data)
             throws OrderRepositoryException, IOException {
         FileInputStream in = new FileInputStream(data.file);
         BOMInputStream bomStream = new BOMInputStream(in);
@@ -77,23 +83,37 @@ public class OrderResource {
         OrderCSVConverter converter = new OrderCSVConverter();
         List<OrderDTO> dtos = converter.fromCSV(reader);
         for (OrderDTO dto : dtos) {
-            Map<JANCode, Integer> orderedProducts = dto.orderedProducts.entrySet().stream()
-                    .collect(Collectors.toMap(e -> new JANCode(e.getKey()), e -> e.getValue()));
-            repository.create(new OrderID(dto.orderID), new LPNumber(dto.lpNumber), orderedProducts);
+            try {
+                importData(dto);
+            } catch (Exception e) {
+                String message = new StringBuilder()
+                        .append("Error occurs while importing order: ")
+                        .append(dto.orderID)
+                        .toString();
+                logger.error(message, e);
+            }
         }
-        return Uni.createFrom().item(Map.of("message", "ok"));
+        return Map.of("message", "ok");
     }
 
     @POST
     @Path("/complete")
     @Produces(MediaType.APPLICATION_JSON)
-    public Uni<Map<String, String>> completeOrders(OrderCompleteRequest request)
+    public Map<String, String> completeOrders(OrderCompleteRequest request)
             throws OrderRepositoryException, ProductRepositoryException, InventoryNotEnoughException {
         for (String orderIDStr : request.orderID) {
             OrderID orderID = new OrderID(orderIDStr);
-            completeUsecase.complete(orderID);
+            try {
+                completeOrder(orderID);
+            } catch (Exception e) {
+                String message = new StringBuilder()
+                        .append("Error occurs while completing order: ")
+                        .append(orderIDStr)
+                        .toString();
+                logger.error(message, e);
+            }
         }
-        return Uni.createFrom().item(Map.of("message", "ok"));
+        return Map.of("message", "ok");
     }
 
     private OrderDTO convert(Optional<Order> found) {
@@ -102,6 +122,19 @@ public class OrderResource {
         }
         Order order = found.get();
         return OrderDTO.fromOrder(order);
+    }
+
+    @Transactional
+    public void importData(OrderDTO dto) throws OrderRepositoryException {
+        Map<JANCode, Integer> orderedProducts = dto.orderedProducts.entrySet().stream()
+                .collect(Collectors.toMap(e -> new JANCode(e.getKey()), e -> e.getValue()));
+        repository.create(new OrderID(dto.orderID), new LPNumber(dto.lpNumber), orderedProducts);
+    }
+
+    @Transactional
+    public void completeOrder(OrderID orderID)
+            throws OrderRepositoryException, ProductRepositoryException, InventoryNotEnoughException {
+        completeUsecase.complete(orderID);
     }
 
 }

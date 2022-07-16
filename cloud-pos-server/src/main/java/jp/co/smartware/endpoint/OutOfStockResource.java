@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -15,6 +16,7 @@ import jp.co.smartware.dto.OutOfStockDTO;
 import jp.co.smartware.usecase.outofstock.OutOfStockDetector;
 
 @Path("/outofstock")
+@Transactional
 public class OutOfStockResource {
 
     @Inject

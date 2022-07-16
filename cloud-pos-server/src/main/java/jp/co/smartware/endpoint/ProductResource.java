@@ -12,12 +12,15 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import org.jboss.logging.Logger;
 
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.unchecked.Unchecked;
@@ -38,6 +41,9 @@ import jp.co.smartware.usecase.arrive.ProductArrivalUsecase;
 public class ProductResource {
 
     @Inject
+    Logger logger;
+
+    @Inject
     ProductRepository repository;
 
     @Inject
@@ -46,6 +52,7 @@ public class ProductResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
     public Uni<ProductDTO> get(String id) {
         JANCode janCode = new JANCode(id);
         return Uni.createFrom().item(janCode)
@@ -57,33 +64,31 @@ public class ProductResource {
     @Path("/inventory")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Uni<Map<String, String>> importInventoryCSV(FileUploadFormData data)
+    public Map<String, String> importInventoryCSV(FileUploadFormData data)
             throws ProductRepositoryException, IOException {
         FileInputStream in = new FileInputStream(data.file);
         InputStreamReader reader = new InputStreamReader(in, Charset.forName("MS932"));
         InventoyCSVConverter converter = new InventoyCSVConverter();
         List<ProductDTO> dtos = converter.fromCSV(reader);
         for (ProductDTO dto : dtos) {
-            Optional<Product> found = repository.findByJANCode(new JANCode(dto.jancode));
-            if (found.isEmpty()) {
-                continue;
-            }
-            Product product = found.get();
-            product.setInventoryQuantity(dto.inventoryQuantity);
             try {
-                repository.update(product);
-            } catch (IllegalArgumentException e) {
-                // skip
+                importProductInventory(dto);
+            } catch (Exception e) {
+                String message = new StringBuilder()
+                        .append("Error occurs while inventory info: ")
+                        .append(dto.jancode)
+                        .toString();
+                logger.error(message, e);
             }
         }
-        return Uni.createFrom().item(Map.of("message", "ok"));
+        return Map.of("message", "ok");
     }
 
     @POST
     @Path("/info")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Uni<Map<String, String>> importProductInfoCSV(FileUploadFormData data)
+    public Map<String, String> importProductInfoCSV(FileUploadFormData data)
             throws ProductRepositoryException, IOException {
         File file = data.file;
         FileInputStream in = new FileInputStream(file);
@@ -92,38 +97,23 @@ public class ProductResource {
         ProductInfoCSVConverter converter = new ProductInfoCSVConverter();
         List<ProductDTO> dtos = converter.fromCSV(isr);
         for (ProductDTO dto : dtos) {
-            int currentInventory = 0;
-            Optional<Product> found = repository.findByJANCode(new JANCode(dto.jancode));
-            if (found.isPresent()) {
-                Product product = found.get();
-                currentInventory = product.getInventoryQuantity();
-                repository.delete(product.getJanCode());
+            try {
+                importProductInfo(dto);
+            } catch (Exception e) {
+                String message = new StringBuilder()
+                        .append("Error occurs while importig product info: ")
+                        .append(dto.jancode)
+                        .toString();
+                logger.error(message, e);
             }
-            JANCode janCode = new JANCode(dto.jancode);
-            JapaneseProductName japaneseProductName = null;
-            if (dto.japaneseProductName != null) {
-                japaneseProductName = new JapaneseProductName(dto.japaneseProductName);
-            }
-            ChineseProductName chineseProductName = null;
-            if (dto.chineseProductName != null) {
-                chineseProductName = new ChineseProductName(dto.chineseProductName);
-            }
-            URL imageURL = null;
-            if (dto.imageURL != null && !dto.imageURL.isEmpty()) {
-                try {
-                    imageURL = new URL(dto.imageURL);
-                } catch (MalformedURLException e) {
-                    // skip
-                }
-            }
-            repository.create(janCode, japaneseProductName, chineseProductName, imageURL, currentInventory);
         }
-        return Uni.createFrom().item(Map.of("message", "ok"));
+        return Map.of("message", "ok");
     }
 
     @POST
     @Path("/arrival")
     @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
     public Uni<Map<String, String>> productArrival(ProductArrivalRequest request) throws ProductRepositoryException {
         JANCode janCode = new JANCode(request.janCode);
         arrivalUsecase.arrive(janCode, request.amount);
@@ -136,6 +126,50 @@ public class ProductResource {
         }
         Product product = found.get();
         return ProductDTO.fromProduct(product);
+    }
+
+    @Transactional
+    public void importProductInfo(ProductDTO dto) throws ProductRepositoryException {
+        int currentInventory = 0;
+        JANCode janCode = new JANCode(dto.jancode);
+        JapaneseProductName japaneseProductName = null;
+        if (dto.japaneseProductName != null) {
+            japaneseProductName = new JapaneseProductName(dto.japaneseProductName);
+        }
+        ChineseProductName chineseProductName = null;
+        if (dto.chineseProductName != null) {
+            chineseProductName = new ChineseProductName(dto.chineseProductName);
+        }
+        URL imageURL = null;
+        if (dto.imageURL != null && !dto.imageURL.isEmpty()) {
+            try {
+                imageURL = new URL(dto.imageURL);
+            } catch (MalformedURLException e) {
+                // skip
+            }
+        }
+        Optional<Product> found = repository.findByJANCode(new JANCode(dto.jancode));
+        if (found.isPresent()) {
+            Product product = new Product(janCode, japaneseProductName, chineseProductName, imageURL,
+                    found.get().getInventoryQuantity());
+            repository.update(product);
+        } else {
+            repository.create(janCode, japaneseProductName, chineseProductName, imageURL, currentInventory);
+        }
+    }
+
+    @Transactional
+    public void importProductInventory(ProductDTO dto) throws ProductRepositoryException {
+        if (dto.jancode == null || dto.jancode.isEmpty()) {
+            return;
+        }
+        Optional<Product> found = repository.findByJANCode(new JANCode(dto.jancode));
+        if (found.isEmpty()) {
+            logger.errorf("Product: {} not found", dto.jancode);
+        }
+        Product product = found.get();
+        product.setInventoryQuantity(dto.inventoryQuantity);
+        repository.update(product);
     }
 
 }
