@@ -122,4 +122,16 @@ public class Order {
         return LocalDateTime.now();
     }
 
+    long getOrderID() {
+        return orderID;
+    }
+
+    String getLpNumber() {
+        return lpNumber;
+    }
+
+    LocalDateTime getOrderedTimestamp() {
+        return orderedTimestamp;
+    }
+
 }
