@@ -6,13 +6,14 @@ import { complteOrders } from "../api-call/completeOrders"
 import { MultipleProductImages } from "./ProductImage"
 
 type OrderedProduct = {
-    [key: string]: number
+    janCode: number,
+    amount: number
 }
 
 export type OrderInfo = {
-    orderID: string,
+    orderID: number,
     lpNumber: string,
-    orderedProducts: OrderedProduct
+    orderedProducts: OrderedProduct[]
 }
 
 type Props = {
@@ -20,8 +21,8 @@ type Props = {
 }
 
 const ProductColumn = (params: any) => {
-    const products = params.row.orderedProducts as OrderedProduct;
-    const janCodeAndAmount = Object.keys(products).map(janCode => janCode + " x " + products[janCode])
+    const products = params.row.orderedProducts as OrderedProduct[];
+    const janCodeAndAmount = products.map(product => product.janCode + " x " + product.amount);
     return (
         <ul>
             {janCodeAndAmount.map(str => <li>{str}</li>)}
