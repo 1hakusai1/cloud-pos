@@ -44,7 +44,7 @@ export const WaitingOrdersTable = ({ orders }: Props) => {
     const navigate = useNavigate();
 
     const submitData = async () => {
-        await complteOrders(selectedIDs as string[]);
+        await complteOrders(selectedIDs as number[]);
         navigate(0);
     }
 
