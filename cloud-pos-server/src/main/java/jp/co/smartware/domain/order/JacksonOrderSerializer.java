@@ -33,7 +33,7 @@ public class JacksonOrderSerializer extends StdSerializer<Order> {
             gen.writeStringField("completedTimestamp", value.getCompletedTimestamp().get().toString());
         }
 
-        gen.writeFieldName("orderdProducts");
+        gen.writeFieldName("orderedProducts");
         gen.writeStartArray();
         var janCodes = value.listOrderdProducts();
         var janCodeSerializer = provider.findValueSerializer(JANCode.class);
