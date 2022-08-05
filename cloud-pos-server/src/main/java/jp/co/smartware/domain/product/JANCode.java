@@ -45,4 +45,7 @@ public class JANCode implements Serializable {
         return "JANCode [value=" + value + "]";
     }
 
+    long getValue() {
+        return value;
+    }
 }

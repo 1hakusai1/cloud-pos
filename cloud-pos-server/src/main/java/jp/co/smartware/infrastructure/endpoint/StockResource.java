@@ -5,11 +5,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -23,6 +25,8 @@ import jp.co.smartware.infrastructure.csv.stock.StockCSVReader;
 import jp.co.smartware.infrastructure.csv.stock.StockCSVRow;
 import jp.co.smartware.infrastructure.form.FileUploadForm;
 import jp.co.smartware.infrastructure.repository.StockRepository;
+import jp.co.smartware.usecase.OutOfStockCalculator;
+import jp.co.smartware.usecase.OutOfStockProduct;
 
 @Path("/stocks")
 public class StockResource {
@@ -32,6 +36,9 @@ public class StockResource {
 
     @Inject
     StockRepository repository;
+
+    @Inject
+    OutOfStockCalculator outOfStockCalculator;
 
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -55,8 +62,21 @@ public class StockResource {
 
     @Transactional
     protected void importStock(StockCSVRow row) {
-        var stock = new Stock(new JANCode(row.getJanCode()), row.getAmount());
+        var janCode = row.getJanCode();
+        var amount = row.getAmount();
+        if (amount < 0) {
+            logger.errorv("JANCode: {0} has minus amount. Assume 0.", janCode);
+            amount = 0;
+        }
+        var stock = new Stock(new JANCode(janCode), amount);
         repository.persist(stock);
+    }
+
+    @GET
+    @Path("/outofstock")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<OutOfStockProduct> getOutOfStockProducts() {
+        return outOfStockCalculator.list();
     }
 
 }

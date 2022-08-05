@@ -9,6 +9,8 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import io.quarkus.runtime.StartupEvent;
 import jp.co.smartware.domain.order.Order;
 import jp.co.smartware.domain.product.JANCode;
@@ -25,15 +27,20 @@ public class InitialDataRegister {
     @Inject
     OrderRepository orderRepository;
 
+    @ConfigProperty(name = "register-dummy-data")
+    boolean register;
+
     @Transactional
     public void setupData(@Observes StartupEvent event) {
-        for (int i = 1; i <= 100; i++) {
-            JANCode janCode = new JANCode(i);
-            Stock stock = new Stock(janCode, i);
-            stockRepository.persist(stock);
+        if (register) {
+            for (int i = 1; i <= 100; i++) {
+                JANCode janCode = new JANCode(i);
+                Stock stock = new Stock(janCode, i);
+                stockRepository.persist(stock);
 
-            Order order = new Order(i, UUID.randomUUID().toString(), Map.of(janCode, i), LocalDateTime.now());
-            orderRepository.persist(order);
+                Order order = new Order(i, UUID.randomUUID().toString(), Map.of(janCode, i), LocalDateTime.now());
+                orderRepository.persist(order);
+            }
         }
     }
 

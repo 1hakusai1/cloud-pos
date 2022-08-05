@@ -3,14 +3,13 @@ import { useState } from "react";
 import { ProductArrivalDialog } from "./ProductArrivalDialog";
 
 export type outOfStockProductInfo = {
-    janCode: string,
-    imageURL?: string,
-    orderedAmount: number,
+    janCode: number,
+    totalOrderdAmount: number,
     lackedAmount: number,
 }
 
-export const OutOfStockProductCard = ({ janCode, imageURL, orderedAmount, lackedAmount }: outOfStockProductInfo) => {
-    const url = imageURL ? imageURL : "https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg";
+export const OutOfStockProductCard = ({ janCode, totalOrderdAmount, lackedAmount }: outOfStockProductInfo) => {
+    const url = "https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg";
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     return (
         <>
@@ -34,7 +33,7 @@ export const OutOfStockProductCard = ({ janCode, imageURL, orderedAmount, lacked
                                     Orderd
                                 </Typography>
                                 <Typography variant="h3">
-                                    {orderedAmount}
+                                    {totalOrderdAmount}
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} sx={{ color: "red" }}>

@@ -1,4 +1,4 @@
-export const productArrive = async (janCode: string, num: number) => {
+export const productArrive = async (janCode: number, num: number) => {
     const requestBody = { janCode: janCode, amount: num };
     try {
         const response = await fetch("/products/arrival", {
