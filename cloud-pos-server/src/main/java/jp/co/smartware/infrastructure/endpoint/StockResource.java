@@ -13,11 +13,14 @@ import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
+import org.jboss.resteasy.reactive.RestPath;
 
 import jp.co.smartware.domain.product.JANCode;
 import jp.co.smartware.domain.stock.Stock;
@@ -77,6 +80,19 @@ public class StockResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<OutOfStockProduct> getOutOfStockProducts() {
         return outOfStockCalculator.list();
+    }
+
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public Response arrive(@RestPath long id, Map<String, Integer> body) {
+        var janCode = new JANCode(id);
+        var stock = repository.findById(janCode);
+        var amount = body.get("amount");
+        stock.arrive(amount);
+
+        return Response.ok().build();
     }
 
 }
