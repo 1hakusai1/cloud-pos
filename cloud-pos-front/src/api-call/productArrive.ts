@@ -8,6 +8,9 @@ export const productArrive = async (janCode: number, num: number) => {
                 "Content-Type": "application/json"
             }
         });
+        if (response.status !== 200) {
+            return { message: "error" };
+        }
     } catch (err) {
         console.error(err);
     }
