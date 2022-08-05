@@ -35,10 +35,10 @@ public class JacksonOrderSerializer extends StdSerializer<Order> {
 
         gen.writeFieldName("orderedProducts");
         gen.writeStartArray();
-        var janCodes = value.listOrderdProducts();
+        var janCodes = value.getOrderedProducts();
         var janCodeSerializer = provider.findValueSerializer(JANCode.class);
         for (var janCode : janCodes) {
-            int amount = value.getOrderdAmount(janCode);
+            int amount = value.getOrderedAmount(janCode);
             gen.writeStartObject();
             gen.writeFieldName("janCode");
             janCodeSerializer.serialize(janCode, gen, provider);

@@ -30,7 +30,7 @@ export const OutOfStock = () => {
                         <OutOfStockProductCard
                             janCode={product.janCode}
                             lackedAmount={product.lackedAmount}
-                            totalOrderdAmount={product.totalOrderdAmount}
+                            totalOrderedAmount={product.totalOrderedAmount}
                         />
                     </Grid>
                 </Box>

@@ -32,8 +32,8 @@ public class OrderCSVConverterTest {
         var order = result.get(0);
         assertEquals(100001L, order.getOrderID());
         assertEquals("LP200001", order.getLpNumber());
-        assertEquals(1, order.listOrderdProducts().size());
-        assertTrue(order.listOrderdProducts().contains(new JANCode(300001)));
+        assertEquals(1, order.getOrderedProducts().size());
+        assertTrue(order.getOrderedProducts().contains(new JANCode(300001)));
         assertEquals(order.getOrderedTimestamp(), LocalDateTime.of(2022, 6, 1, 7, 14, 1));
     }
 
@@ -43,11 +43,11 @@ public class OrderCSVConverterTest {
 
         assertEquals(2, result.size());
         var order = result.get(0);
-        assertEquals(2, order.listOrderdProducts().size());
-        assertTrue(order.listOrderdProducts().contains(new JANCode(300001)));
-        assertTrue(order.listOrderdProducts().contains(new JANCode(300002)));
-        assertEquals(order.getOrderdAmount(new JANCode(300001)), 1);
-        assertEquals(order.getOrderdAmount(new JANCode(300002)), 2);
+        assertEquals(2, order.getOrderedProducts().size());
+        assertTrue(order.getOrderedProducts().contains(new JANCode(300001)));
+        assertTrue(order.getOrderedProducts().contains(new JANCode(300002)));
+        assertEquals(order.getOrderedAmount(new JANCode(300001)), 1);
+        assertEquals(order.getOrderedAmount(new JANCode(300002)), 2);
     }
 
     private List<Order> convert(String filename) {

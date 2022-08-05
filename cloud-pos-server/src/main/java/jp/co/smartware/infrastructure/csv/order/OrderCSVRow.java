@@ -17,7 +17,7 @@ public class OrderCSVRow {
     private int amount;
 
     @CsvBindByName(column = "店铺订单时间")
-    private String orderdTimeStamp;
+    private String orderedTimeStamp;
 
     public long getOrderID() {
         return orderID;
@@ -35,8 +35,8 @@ public class OrderCSVRow {
         return amount;
     }
 
-    public String getOrderdTimeStamp() {
-        return orderdTimeStamp;
+    public String getOrderedTimeStamp() {
+        return orderedTimeStamp;
     }
 
 }

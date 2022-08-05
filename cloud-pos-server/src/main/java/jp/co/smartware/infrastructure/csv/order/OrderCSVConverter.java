@@ -27,12 +27,12 @@ public class OrderCSVConverter {
         var rowsByOrderID = groupByOrderID(rows);
         for (var orderID : rowsByOrderID.keySet()) {
             var lpNumber = rowsByOrderID.get(orderID).get(0).getLpNumber();
-            var orderedTimestamp = strToLocalDateTime(rowsByOrderID.get(orderID).get(0).getOrderdTimeStamp());
-            var orderdProducts = rowsByOrderID.get(orderID).stream()
+            var orderedTimestamp = strToLocalDateTime(rowsByOrderID.get(orderID).get(0).getOrderedTimeStamp());
+            var orderedProducts = rowsByOrderID.get(orderID).stream()
                     .collect(Collectors.toMap(
                             row -> new JANCode(row.getJanCode()),
                             row -> row.getAmount()));
-            result.add(new Order(orderID, lpNumber, orderdProducts, orderedTimestamp));
+            result.add(new Order(orderID, lpNumber, orderedProducts, orderedTimestamp));
         }
         return result;
     }

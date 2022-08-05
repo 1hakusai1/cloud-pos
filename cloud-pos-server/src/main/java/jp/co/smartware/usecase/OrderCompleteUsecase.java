@@ -19,7 +19,7 @@ public class OrderCompleteUsecase {
 
     public void complete(long orderID) {
         var order = orderRepository.findById(orderID);
-        var stocks = order.listOrderdProducts().stream()
+        var stocks = order.getOrderedProducts().stream()
                 .map(janCode -> stockRepository.findById(janCode))
                 .collect(Collectors.toList());
         order.complete(stocks);

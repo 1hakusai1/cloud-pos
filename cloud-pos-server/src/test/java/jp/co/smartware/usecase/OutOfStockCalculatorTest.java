@@ -63,7 +63,7 @@ public class OutOfStockCalculatorTest {
 
         List<OutOfStockProduct> products = calculator.list();
         OutOfStockProduct product = find(janCode1, products).get();
-        assertEquals(2, product.getTotalOrderdAmount());
+        assertEquals(2, product.getTotalOrderedAmount());
         assertEquals(1, product.getLackedAmount());
     }
 
@@ -75,7 +75,7 @@ public class OutOfStockCalculatorTest {
 
         List<OutOfStockProduct> products = calculator.list();
         OutOfStockProduct product = find(janCode2, products).get();
-        assertEquals(4, product.getTotalOrderdAmount());
+        assertEquals(4, product.getTotalOrderedAmount());
         assertEquals(2, product.getLackedAmount());
     }
 

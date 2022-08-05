@@ -30,8 +30,8 @@ public class Order {
 
     @ElementCollection
     @Column(name = "amount")
-    @CollectionTable(name = "orderd_products")
-    private Map<JANCode, Integer> orderdProducts;
+    @CollectionTable(name = "ordered_products")
+    private Map<JANCode, Integer> orderedProducts;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
@@ -43,8 +43,8 @@ public class Order {
     protected Order() {
     }
 
-    public Order(long orderID, String lpNumber, Map<JANCode, Integer> orderdProducts, LocalDateTime orderedTimestamp) {
-        for (int amount : orderdProducts.values()) {
+    public Order(long orderID, String lpNumber, Map<JANCode, Integer> orderedProducts, LocalDateTime orderedTimestamp) {
+        for (int amount : orderedProducts.values()) {
             if (amount <= 0) {
                 throw new IllegalArgumentException(
                         "orderID " + orderID + ": Amount of ordered products must be more than 0.");
@@ -55,7 +55,7 @@ public class Order {
         }
         this.orderID = orderID;
         this.lpNumber = lpNumber;
-        this.orderdProducts = Collections.unmodifiableMap(orderdProducts);
+        this.orderedProducts = Collections.unmodifiableMap(orderedProducts);
         this.status = OrderStatus.WAITING;
         this.orderedTimestamp = orderedTimestamp;
         this.completedTimestamp = null;
@@ -65,17 +65,17 @@ public class Order {
         checkAllProductsArePassed(stocks);
         checkAllStocksAreSufficient(stocks);
 
-        for (JANCode janCode : orderdProducts.keySet()) {
-            int orderdAmount = orderdProducts.get(janCode);
+        for (JANCode janCode : orderedProducts.keySet()) {
+            int orderedAmount = orderedProducts.get(janCode);
             Stock stock = findStock(janCode, stocks).orElseThrow();
-            stock.ship(orderdAmount);
+            stock.ship(orderedAmount);
         }
         status = OrderStatus.COMPLETE;
         completedTimestamp = getCurrent();
     }
 
     private void checkAllProductsArePassed(Collection<Stock> stocks) {
-        for (JANCode janCode : orderdProducts.keySet()) {
+        for (JANCode janCode : orderedProducts.keySet()) {
             if (findStock(janCode, stocks).isEmpty()) {
                 throw new IllegalArgumentException("orderID " + orderID + ", " + janCode + ": Not passed.");
             }
@@ -83,10 +83,10 @@ public class Order {
     }
 
     private void checkAllStocksAreSufficient(Collection<Stock> stocks) {
-        for (JANCode janCode : orderdProducts.keySet()) {
-            int orderdAmount = orderdProducts.get(janCode);
+        for (JANCode janCode : orderedProducts.keySet()) {
+            int orderedAmount = orderedProducts.get(janCode);
             Stock stock = findStock(janCode, stocks).orElseThrow();
-            if (stock.getAmount() < orderdAmount) {
+            if (stock.getAmount() < orderedAmount) {
                 throw new IllegalArgumentException(
                         "orderID " + orderID + ", " + janCode + ": Not sufficient stok.");
             }
@@ -103,15 +103,15 @@ public class Order {
         return status;
     }
 
-    public Set<JANCode> listOrderdProducts() {
-        return Collections.unmodifiableSet(orderdProducts.keySet());
+    public Set<JANCode> getOrderedProducts() {
+        return Collections.unmodifiableSet(orderedProducts.keySet());
     }
 
-    public int getOrderdAmount(JANCode janCode) {
-        if (!orderdProducts.containsKey(janCode)) {
-            throw new IllegalArgumentException(janCode + "is not orderd.");
+    public int getOrderedAmount(JANCode janCode) {
+        if (!orderedProducts.containsKey(janCode)) {
+            throw new IllegalArgumentException(janCode + "is not ordered.");
         }
-        return orderdProducts.get(janCode);
+        return orderedProducts.get(janCode);
     }
 
     Optional<LocalDateTime> getCompletedTimestamp() {

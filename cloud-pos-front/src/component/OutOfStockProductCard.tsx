@@ -4,11 +4,11 @@ import { ProductArrivalDialog } from "./ProductArrivalDialog";
 
 export type outOfStockProductInfo = {
     janCode: number,
-    totalOrderdAmount: number,
+    totalOrderedAmount: number,
     lackedAmount: number,
 }
 
-export const OutOfStockProductCard = ({ janCode, totalOrderdAmount, lackedAmount }: outOfStockProductInfo) => {
+export const OutOfStockProductCard = ({ janCode, totalOrderedAmount: totalOrderedAmount, lackedAmount }: outOfStockProductInfo) => {
     const url = "https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg";
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     return (
@@ -30,10 +30,10 @@ export const OutOfStockProductCard = ({ janCode, totalOrderdAmount, lackedAmount
                         <Grid container>
                             <Grid item xs={6}>
                                 <Typography variant="h6">
-                                    Orderd
+                                    Ordered
                                 </Typography>
                                 <Typography variant="h3">
-                                    {totalOrderdAmount}
+                                    {totalOrderedAmount}
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} sx={{ color: "red" }}>
