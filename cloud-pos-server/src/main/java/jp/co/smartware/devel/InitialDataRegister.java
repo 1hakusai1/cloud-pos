@@ -14,8 +14,10 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import io.quarkus.runtime.StartupEvent;
 import jp.co.smartware.domain.order.Order;
 import jp.co.smartware.domain.product.JANCode;
+import jp.co.smartware.domain.product.Product;
 import jp.co.smartware.domain.stock.Stock;
 import jp.co.smartware.infrastructure.repository.OrderRepository;
+import jp.co.smartware.infrastructure.repository.ProductRepository;
 import jp.co.smartware.infrastructure.repository.StockRepository;
 
 @ApplicationScoped
@@ -26,6 +28,9 @@ public class InitialDataRegister {
 
     @Inject
     OrderRepository orderRepository;
+
+    @Inject
+    ProductRepository productRepository;
 
     @ConfigProperty(name = "register-dummy-data")
     boolean register;
@@ -40,6 +45,13 @@ public class InitialDataRegister {
 
                 Order order = new Order(i, UUID.randomUUID().toString(), Map.of(janCode, i), LocalDateTime.now());
                 orderRepository.persist(order);
+
+                String imageURL = null;
+                if (i % 2 == 0) {
+                    imageURL = "https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg";
+                }
+                Product product = new Product(new JANCode(i), UUID.randomUUID().toString(), imageURL);
+                productRepository.persist(product);
             }
         }
     }
