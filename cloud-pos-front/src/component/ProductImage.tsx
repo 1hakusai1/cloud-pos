@@ -13,7 +13,7 @@ export const ProductImage = ({ janCode }: ImageProps) => {
     return (
         <>
             {imageURL &&
-                <img height={30} width={30} src={imageURL} />
+                <img height={30} width={30} src={imageURL} alt={String(janCode)} />
             }
         </>
     )

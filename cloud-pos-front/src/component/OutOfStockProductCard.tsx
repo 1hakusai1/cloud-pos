@@ -9,7 +9,7 @@ export type outOfStockProductInfo = {
     lackedAmount: number,
 }
 
-export const OutOfStockProductCard = ({ janCode, totalOrderedAmount: totalOrderedAmount, lackedAmount }: outOfStockProductInfo) => {
+export const OutOfStockProductCard = ({ janCode, totalOrderedAmount, lackedAmount }: outOfStockProductInfo) => {
     const [url, setUrl] = useState<string>("");
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
