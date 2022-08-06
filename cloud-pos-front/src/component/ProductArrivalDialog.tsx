@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { productArrive } from "../api-call/productArrive"
 
 type Props = {
-    janCode: string,
+    janCode: number,
     open: boolean
     onClose: () => void
 }

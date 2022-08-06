@@ -1,19 +1,10 @@
 import { outOfStockProductInfo } from "../component/OutOfStockProductCard";
 
 export const getOutOfStockProducts = async () => {
-    const response = await fetch("/outofstock");
+    const response = await fetch("/stocks/outofstock");
     if (response.status !== 200) {
         return [];
     }
-    const json = await response.json() as any[];
-    return json.map(elem => convert(elem)) as outOfStockProductInfo[];
-}
-
-const convert = (obj: any) => {
-    return {
-        janCode: obj.product.jancode,
-        imageURL: obj.product.imageURL,
-        orderedAmount: obj.totalOrderedAmount,
-        lackedAmount: obj.lackedAmount
-    }
+    const json = await response.json() as outOfStockProductInfo[];
+    return json;
 }

@@ -6,13 +6,14 @@ import { complteOrders } from "../api-call/completeOrders"
 import { MultipleProductImages } from "./ProductImage"
 
 type OrderedProduct = {
-    [key: string]: number
+    janCode: number,
+    amount: number
 }
 
 export type OrderInfo = {
-    orderID: string,
+    orderID: number,
     lpNumber: string,
-    orderedProducts: OrderedProduct
+    orderedProducts: OrderedProduct[]
 }
 
 type Props = {
@@ -20,8 +21,8 @@ type Props = {
 }
 
 const ProductColumn = (params: any) => {
-    const products = params.row.orderedProducts as OrderedProduct;
-    const janCodeAndAmount = Object.keys(products).map(janCode => janCode + " x " + products[janCode])
+    const products = params.row.orderedProducts as OrderedProduct[];
+    const janCodeAndAmount = products.map(product => product.janCode + " x " + product.amount);
     return (
         <ul>
             {janCodeAndAmount.map(str => <li>{str}</li>)}
@@ -33,7 +34,11 @@ const columuns: GridColDef[] = [
     { field: "orderID", headerName: "orderID", width: 200, sortable: false },
     { field: "lpNumber", width: 200, sortable: false },
     { field: "products", width: 200, sortable: false, renderCell: ProductColumn },
-    { field: "images", width: 200, sortable: false, renderCell: (params) => <MultipleProductImages janCodes={Object.keys(params.row.orderedProducts)} /> }
+    {
+        field: "images", width: 200, sortable: false,
+        renderCell: (params) => <MultipleProductImages
+            janCodes={(params.row.orderedProducts as OrderedProduct[]).map(product => product.janCode)} />
+    }
 ]
 
 export const WaitingOrdersTable = ({ orders }: Props) => {
@@ -43,7 +48,7 @@ export const WaitingOrdersTable = ({ orders }: Props) => {
     const navigate = useNavigate();
 
     const submitData = async () => {
-        await complteOrders(selectedIDs as string[]);
+        await complteOrders(selectedIDs as number[]);
         navigate(0);
     }
 

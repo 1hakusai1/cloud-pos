@@ -6,5 +6,6 @@ export const getWaitingOrder = async () => {
         return [];
     };
     const body = await response.json() as OrderInfo[];
+
     return body;
 }

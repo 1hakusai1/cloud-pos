@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { getProductImage } from "../api-call/getProductImage";
 
 type ImageProps = {
-    janCode: string
+    janCode: number
 }
 
 export const ProductImage = ({ janCode }: ImageProps) => {
@@ -13,14 +13,14 @@ export const ProductImage = ({ janCode }: ImageProps) => {
     return (
         <>
             {imageURL &&
-                <img height={30} width={30} src={imageURL} />
+                <img height={30} width={30} src={imageURL} alt={String(janCode)} />
             }
         </>
     )
 }
 
 type MultipleImagesProp = {
-    janCodes: string[]
+    janCodes: number[]
 }
 
 export const MultipleProductImages = ({ janCodes }: MultipleImagesProp) => {

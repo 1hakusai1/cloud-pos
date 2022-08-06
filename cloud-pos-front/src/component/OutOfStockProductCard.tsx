@@ -1,17 +1,22 @@
 import { Button, Card, CardMedia, Grid, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getProductImage } from "../api-call/getProductImage";
 import { ProductArrivalDialog } from "./ProductArrivalDialog";
 
 export type outOfStockProductInfo = {
-    janCode: string,
-    imageURL?: string,
-    orderedAmount: number,
+    janCode: number,
+    totalOrderedAmount: number,
     lackedAmount: number,
 }
 
-export const OutOfStockProductCard = ({ janCode, imageURL, orderedAmount, lackedAmount }: outOfStockProductInfo) => {
-    const url = imageURL ? imageURL : "https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg";
+export const OutOfStockProductCard = ({ janCode, totalOrderedAmount, lackedAmount }: outOfStockProductInfo) => {
+    const [url, setUrl] = useState<string>("");
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+        getProductImage(janCode).then(imageURL => setUrl(imageURL))
+    }, []);
+
     return (
         <>
             <Card sx={{ width: 600, padding: 1 }}>
@@ -31,10 +36,10 @@ export const OutOfStockProductCard = ({ janCode, imageURL, orderedAmount, lacked
                         <Grid container>
                             <Grid item xs={6}>
                                 <Typography variant="h6">
-                                    Orderd
+                                    Ordered
                                 </Typography>
                                 <Typography variant="h3">
-                                    {orderedAmount}
+                                    {totalOrderedAmount}
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} sx={{ color: "red" }}>

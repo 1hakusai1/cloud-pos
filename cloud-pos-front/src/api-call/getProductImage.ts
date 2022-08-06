@@ -1,7 +1,7 @@
-export const getProductImage = async (janCode: string) => {
+export const getProductImage = async (janCode: number) => {
     const response = await fetch(`/products/${janCode}`);
     if (response.status !== 200) {
-        throw "Failed to fetch";
+        throw new Error("Failed to fetch");
     }
     const json = await response.json();
     if (json.imageURL) {

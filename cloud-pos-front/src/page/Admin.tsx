@@ -6,10 +6,10 @@ export const Admin = () => {
         <>
             <Typography variant="h1" textAlign="center">Admin Page</Typography>
             <Box textAlign="center" sx={{ m: 1 }}>
-                <FileUploadButton uploadURL="/products/inventory" buttonText="Update Inventry" />
+                <FileUploadButton uploadURL="/stocks" buttonText="Import Stock" />
             </Box>
             <Box textAlign="center">
-                <FileUploadButton uploadURL="/products/info" buttonText="Update Product Info" />
+                <FileUploadButton uploadURL="/products" buttonText="Update Product Info" />
             </Box>
         </>
     )
