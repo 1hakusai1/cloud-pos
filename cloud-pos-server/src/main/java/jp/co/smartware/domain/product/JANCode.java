@@ -8,7 +8,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class JANCode implements Serializable {
 
-    @Column(name = "jancode")
+    @Column(name = "jan_code")
     private long value;
 
     protected JANCode() {

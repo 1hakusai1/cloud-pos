@@ -2,13 +2,16 @@ package jp.co.smartware.domain.product;
 
 import java.util.Optional;
 
+import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import jp.co.smartware.infrastructure.hibernate.OptionalStringAttributeConverter;
 
 @Entity
+@Table(name = "products")
 public class Product {
 
     @EmbeddedId
@@ -17,6 +20,7 @@ public class Product {
     private String name;
 
     @Convert(converter = OptionalStringAttributeConverter.class)
+    @Column(name = "image_url")
     private Optional<String> imageURL;
 
     protected Product() {

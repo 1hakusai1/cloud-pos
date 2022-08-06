@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import jp.co.smartware.domain.product.JANCode;
@@ -24,20 +25,24 @@ import jp.co.smartware.domain.stock.Stock;
 public class Order {
 
     @Id
+    @Column(name = "order_id")
     private long orderID;
 
+    @Column(name = "lp_number")
     private String lpNumber;
 
     @ElementCollection
     @Column(name = "amount")
-    @CollectionTable(name = "ordered_products")
+    @CollectionTable(name = "ordered_products", joinColumns = @JoinColumn(name = "order_id"))
     private Map<JANCode, Integer> orderedProducts;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    @Column(name = "ordered_timestamp")
     private LocalDateTime orderedTimestamp;
 
+    @Column(name = "completed_timestamp")
     private LocalDateTime completedTimestamp;
 
     protected Order() {

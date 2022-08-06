@@ -2,10 +2,12 @@ package jp.co.smartware.domain.stock;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import jp.co.smartware.domain.product.JANCode;
 
 @Entity
+@Table(name = "stocks")
 public class Stock {
 
     @EmbeddedId
