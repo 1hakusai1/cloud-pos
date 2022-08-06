@@ -34,7 +34,11 @@ const columuns: GridColDef[] = [
     { field: "orderID", headerName: "orderID", width: 200, sortable: false },
     { field: "lpNumber", width: 200, sortable: false },
     { field: "products", width: 200, sortable: false, renderCell: ProductColumn },
-    { field: "images", width: 200, sortable: false, renderCell: (params) => <MultipleProductImages janCodes={Object.keys(params.row.orderedProducts)} /> }
+    {
+        field: "images", width: 200, sortable: false,
+        renderCell: (params) => <MultipleProductImages
+            janCodes={(params.row.orderedProducts as OrderedProduct[]).map(product => product.janCode)} />
+    }
 ]
 
 export const WaitingOrdersTable = ({ orders }: Props) => {

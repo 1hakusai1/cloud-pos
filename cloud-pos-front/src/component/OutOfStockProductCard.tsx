@@ -1,5 +1,6 @@
 import { Button, Card, CardMedia, Grid, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getProductImage } from "../api-call/getProductImage";
 import { ProductArrivalDialog } from "./ProductArrivalDialog";
 
 export type outOfStockProductInfo = {
@@ -9,8 +10,13 @@ export type outOfStockProductInfo = {
 }
 
 export const OutOfStockProductCard = ({ janCode, totalOrderedAmount: totalOrderedAmount, lackedAmount }: outOfStockProductInfo) => {
-    const url = "https://kokai.jp/wp/wp-content/uploads/2015/09/Google_favicon_2015.jpg";
+    const [url, setUrl] = useState<string>("");
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+        getProductImage(janCode).then(imageURL => setUrl(imageURL))
+    }, []);
+
     return (
         <>
             <Card sx={{ width: 600, padding: 1 }}>

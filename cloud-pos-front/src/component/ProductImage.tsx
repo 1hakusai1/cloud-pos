@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { getProductImage } from "../api-call/getProductImage";
 
 type ImageProps = {
-    janCode: string
+    janCode: number
 }
 
 export const ProductImage = ({ janCode }: ImageProps) => {
@@ -20,7 +20,7 @@ export const ProductImage = ({ janCode }: ImageProps) => {
 }
 
 type MultipleImagesProp = {
-    janCodes: string[]
+    janCodes: number[]
 }
 
 export const MultipleProductImages = ({ janCodes }: MultipleImagesProp) => {
