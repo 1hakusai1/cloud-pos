@@ -9,7 +9,7 @@ export const Admin = () => {
                 <FileUploadButton uploadURL="/stocks" buttonText="Import Stock" />
             </Box>
             <Box textAlign="center">
-                <FileUploadButton uploadURL="/products/info" buttonText="Update Product Info" />
+                <FileUploadButton uploadURL="/products" buttonText="Update Product Info" />
             </Box>
         </>
     )
