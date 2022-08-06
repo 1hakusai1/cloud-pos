@@ -10,6 +10,8 @@ import jp.co.smartware.domain.order.JacksonOrderSerializer;
 import jp.co.smartware.domain.order.Order;
 import jp.co.smartware.domain.product.JANCode;
 import jp.co.smartware.domain.product.JANCodeSerializer;
+import jp.co.smartware.domain.product.JacksonProductSerializer;
+import jp.co.smartware.domain.product.Product;
 
 @ApplicationScoped
 public class Customizer implements ObjectMapperCustomizer {
@@ -23,6 +25,10 @@ public class Customizer implements ObjectMapperCustomizer {
         SimpleModule orderModule = new SimpleModule();
         orderModule.addSerializer(Order.class, new JacksonOrderSerializer());
         objectMapper.registerModule(orderModule);
+
+        SimpleModule productModule = new SimpleModule();
+        productModule.addSerializer(Product.class, new JacksonProductSerializer());
+        objectMapper.registerModule(productModule);
     }
 
 }
