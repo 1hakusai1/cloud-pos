@@ -32,7 +32,7 @@ public class InitialDataRegister {
     @Inject
     ProductRepository productRepository;
 
-    @ConfigProperty(name = "register-dummy-data")
+    @ConfigProperty(name = "register-dummy-data", defaultValue = "false")
     boolean register;
 
     @Transactional
