@@ -17,6 +17,9 @@ public class ProductCSVRow {
     public String imageURL;
 
     public Product toProduct() {
+        if (imageURL != null && imageURL.isEmpty()) {
+            return new Product(new JANCode(janCode), name, null);
+        }
         return new Product(new JANCode(janCode), name, imageURL);
     }
 
