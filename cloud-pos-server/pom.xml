@@ -1,9 +1,13 @@
 <?xml version="1.0"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>jp.co.smartware</groupId>
+    <artifactId>cloud-pos</artifactId>
+    <version>1.0.0</version>
+  </parent>
   <groupId>jp.co.smartware</groupId>
-  <artifactId>cloud-pos-panache-server</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <artifactId>cloud-pos-server</artifactId>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <failsafe.useModulePath>false</failsafe.useModulePath>
@@ -27,6 +31,12 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
+    <dependency>
+      <groupId>jp.co.smartware</groupId>
+      <artifactId>cloud-pos-front</artifactId>
+      <version>1.0.0</version>
+      <type>zip</type>
+    </dependency>
     <dependency>
       <groupId>com.opencsv</groupId>
       <artifactId>opencsv</artifactId>
@@ -79,6 +89,23 @@
   </dependencies>
   <build>
     <plugins>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-frontend</id>
+            <phase>package</phase>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <configuration>
+              <includeGroupIds>jp.co.smartware</includeGroupIds>
+              <includeArtifactIds>cloud-pos-front</includeArtifactIds>
+              <outputDirectory>${project.build.directory}/classes/META-INF/resources/</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
